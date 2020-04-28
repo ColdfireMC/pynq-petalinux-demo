@@ -1,4 +1,4 @@
-# # *Setup* Básico Con Digilent *Zybo* o *PYNQ* #
+# *Setup* Básico Con Digilent *Zybo* o *PYNQ* #
 
 * Crear un "Block Design" de Vivado.
 * Importar *Constraints*, si se desea agregar RTL (Prefiera activar copiar el .xdc dentro del proyecto.	
