@@ -139,15 +139,13 @@ $ ./petalinux-v2019.2-final-installer.run /opt/pkg/petalinux/2019.2
 ```bash
 $ source <path-to-installed-PetaLinux>/settings.sh
 ```
-```bash
-```
 ### Crear Proyectos Petalinux Desde BSP ###
-
 ```bash
 $ source <path-to-installed-PetaLinux>/settings.sh
 $ petalinux-create -t project -s <ruta_al_bsp>
 ```
-Deben ser de la misma versión.
+Deben ser de la misma versión mayor de Petalinux(No puede crearse un proyecto de 2019 con un BSP 2014).
+
 ### Crear Proyectos Petalinux Desde Definición de Hardware Generada con Vivado ###
 ```bash
 $ source <path-to-installed-PetaLinux>/settings.sh
@@ -198,4 +196,4 @@ $ petalinux-config -c kernel
 $ petalinux-config -c rootfs
 ```
 Al hacer cualquiera de estos cambios, la imagen debe reconstruirse. Luego con la tarjeta conectada y con Xilinx Vitis, debe crearse una aplicación del mismo modo que una aplicación baremetal. Asegurarse que se está referenciando la plataforma correcta. 
-![TEXTO_DESC](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-vitis-doc/Screenshot_20200430_010058.png "Generando Imagen de arranque")
+![TEXTO_DESC](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-vitis-doc/Screenshot_20200430_010058.png "Generando Imagen de arranque").
