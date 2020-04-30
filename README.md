@@ -53,15 +53,6 @@ Cerrar la ventana con <kbd>OK</kbd>
   * Agregar el bloque *BRAM Controller*.
   * Agregar el bloque *Block Memory Generator*.
   Pueden configurarse las caracteristicas de la BRAM, como la cantidad de puertos, el ancho y la capacidad máxima.
-* Agregar Interfaz de gestion del Ethernet PHY (Sólo Zybo).
-  * Descomentar las lineas 49 y 50 
-  ``` 
-  set_property -dict { PACKAGE_PIN F16   IOSTANDARD LVCMOS33 } [get_ports eth_int_b]; #IO_L6P_T0_35 Sch=ETH_INT_B
-  set_property -dict { PACKAGE_PIN E17   IOSTANDARD LVCMOS33 } [get_ports eth_rst_b]; #IO_L3P_T0_DQS_AD1P_35 Sch=ETH_RST_B
-  
-  ```
-  * Crear puertos con los nombres `eth_int_b` y `eth_rst_b`.
-  * Conectar `eth_int_b` a concat y `eth_rst_b`, a `peripheral_aresetn`
   
 ## Generación de Productos ##
 * Crear *Wrapper* de HDL(botón derecho sobre el diseño de bloques (el archivo .bd, en la pestaña *Sources*). (Esto encapsula el diseño y lo hace referenciable por el simulador y el sintetizador).
