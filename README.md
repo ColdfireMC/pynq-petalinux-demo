@@ -135,3 +135,75 @@ Del menú "Xilinx" debe seleccionarse "Program Flash". Asegurarse que la tarjeta
 * Pese a que los archivos de Digilent incluyen información sobre los dispositivos de la placa, hay que especificar la *Flash* SPI a mano.
 
 
+## Crear Proyectos Petalinux ##
+
+### Instalando Petalinux ###
+
+```bash
+# mkdir /opt/pkg/petalinux/2019.2/
+# chown <su_usuario> /opt/pkg/petalinux/2019.2/
+$ ./petalinux-v2019.2-final-installer.run /opt/pkg/petalinux/2019.2
+```
+### Inicializando Entorno Petalinux ###
+```bash
+$ source <path-to-installed-PetaLinux>/settings.sh
+```
+```bash
+```
+### Crear Proyectos Petalinux Desde BSP###
+
+```bash
+$ source <path-to-installed-PetaLinux>/settings.sh
+$ petalinux-create -t project -s <ruta_al_bsp>
+```
+Deben ser de la misma versión.
+### Crear Proyectos Petalinux Desde Definición de Hardware Generada con Vivado ###
+```bash
+$ source <path-to-installed-PetaLinux>/settings.sh
+petalinux-create --type project --template zynq --name <nombre_del_proyecto>
+```
+Esto creará una carpeta con el nombre del proyecto, luego debe configurarse el proyecto con la definición de hardware creada con Vivado
+
+```bash
+$ cd <carpeta_con_nombre_del_proyecto>
+$ petalinux-config --get-hw-description=<carpeta_del_proyecto_de_Vivado>
+```
+Esto Iniciará un configurador `Kconfig` de la imagen. En muchos casos la configuración predeterminada es satisfactoria, por lo que bastará con seleccionar <kbd>Save</kbd>.
+
+### Construir Petalinux ###
+Para construir el sistema completo predeterminado
+```bash
+$ cd <carpeta_con_nombre_del_proyecto>
+$ petalinux-build
+```
+Esto podría tardar hasta 15 minutos
+
+### Generar Imagen empaquetada Para SD ###
+Las imágenes construidas van a estar en `<carpeta_con_nombre_del_proyecto>/images/linux`. 
+```bash
+$ petalinux-package --boot --fsbl <Imagen FSBL> --fpga <bitstream> --u-boot
+```
+o bien, si solo hay una configuración
+```bash
+$ petalinux-package
+```
+los archivos `BOOT.BIN` e `image.ub` en `<carpeta_con_nombre_del_proyecto>/images/linux` deben ser copiados a una sd con formato FAT32. Esto es suficiente para que el Zynq logre arrancar Petalinux
+
+### Generar Imagen empaquetada Para SPI ###
+
+Las imágenes construidas van a estar en `<carpeta_con_nombre_del_proyecto>/images/linux`. 
+```bash
+$ petalinux-package --boot --fsbl <Imagen FSBL> --fpga <bitstream> --u-boot
+```
+o bien, si solo hay una configuración
+```bash
+$ petalinux-package
+```
+Sin embargo debe notarse que la imagen predeterminada podría exceder ampliamente el tamaño de la memoria. Debe configurarse el Núcleo (Kernel) y el RootFS para descartar cualquier componente que se considere innecesario, entre ellos, controladores de dispositivos que no va a estar conectados, aplicaciones y *daemons* que no se van a usar.
+
+```bash
+$ cd <carpeta_con_nombre_del_proyecto>
+$ petalinux-config -c kernel
+$ petalinux-config -c rootfs
+```
+Al hacer cualquiera de estos cambios, la imagen debe reconstruirse. Luego con la tarjeta conectada y con Xilinx Vitis, debe crearse una aplicación del mismo modo que una aplicación baremetal. Asegurarse que se está referenciando la plataforma correcta. 
