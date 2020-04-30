@@ -141,7 +141,7 @@ $ source <path-to-installed-PetaLinux>/settings.sh
 ```
 ```bash
 ```
-### Crear Proyectos Petalinux Desde BSP###
+### Crear Proyectos Petalinux Desde BSP ###
 
 ```bash
 $ source <path-to-installed-PetaLinux>/settings.sh
