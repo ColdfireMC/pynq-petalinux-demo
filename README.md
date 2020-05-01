@@ -123,7 +123,7 @@ Si no se desean agregar más particiones, presionar <kbd>Create Image</kbd>.
 
 ### *Flasheando* Imagen ###
 
-En el arbol, botón derecho en holamundo_pynq_system.![TEXTO_DESC](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-vitis-doc/Screenshot_20200430_233849.png "Flasheando")
+En el arbol, botón derecho en holamundo_pynq_system.![TEXTO_DESC](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-vitis-doc/Screenshot_20200430_233829.png "Flasheando")
 Aparece la ventana de Flasheo. ![TEXTO_DESC](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-vitis-doc/Screenshot_20200430_234447.png "Flasheando")
 Presionar <kbd>Program</kbd>. Esto tardará bastante tiempo. Asegurarse de que no se interrumpirá el suministro de energía de la placa. De interrumpirse, podría "regrabarse" la memoria cambiando la configuración de los jumpers de la tarjeta de desarrollo a otra que no haga al FPGA arrancar con la memoria SPI (Por ejemplo JTAG).
 
