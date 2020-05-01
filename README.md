@@ -1,7 +1,7 @@
 # *Setup* Básico Con Digilent *PYNQ* #
 
 * Crear un "Block Design" de Vivado.
-* Importar *Constraints*, si se desea agregar RTL (Prefiera activar copiar el .xdc dentro del proyecto.	
+* Importar *Constraints*, si se desea agregar RTL (Prefiera activar copiar el .xdc dentro del proyecto).	
 * Agregar un PS "ZYNQ 7 Processing System" (CPU principal).
 ![TEXTO_DESC](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Screenshot_20200416_181928.png "Agregando un PS")
 * Configurar el CPU principal.
