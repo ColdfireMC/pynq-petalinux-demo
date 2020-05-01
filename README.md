@@ -24,9 +24,9 @@ Cerrar la ventana con <kbd>OK</kbd>
         * Agregar *Concat*, *AXI IIC*, *AXI QUAD SPI* y 2 *AXI GPIO*.
     ![TEXTO_DESC](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Screenshot_20200416_192221.png "Agregando Concat")
     ![TEXTO_DESC](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Screenshot_20200416_192323.png "Agregando GPIO")
-    * Configurar bloque *Concat*: Dado que el tipo de `IRQ_F2P` no es compatible con las lineas de interrupcion, deben concatenarse las lineas en un solo vector lógico. Este bloque puede juntar las lineas de interrupción. Debe agregarse una entrada por cada interrupción
+    * Configurar bloque *Concat*: Dado que el tipo de `IRQ_F2P` no es compatible con las líneas de interrupcion, deben concatenarse las líneas en un solo vector lógico. Este bloque puede juntar las líneas de interrupción. Debe agregarse una entrada por cada interrupción
          * Doble Clic en *Concat*
-         * Editar el ampo *Number of Ports*. En este caso serian 4 lineas (Una por cada dispositivo con Interrupción).
+         * Editar el ampo *Number of Ports*. En este caso serian 4 líneas (Una por cada dispositivo con Interrupción).
          ![TEXTO_DESC](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Screenshot_20200416_192529.png "Configurando Concat")
     * Configurar *AXI GPIO*: Doble clic en el bloque
       * Habilitar Interrupciones
@@ -39,7 +39,7 @@ Cerrar la ventana con <kbd>OK</kbd>
   * Hacer clic en el pop-up *Run Connection Automation
   * Seleccionar todos los bloques en las casillas.
   Esto hará que se genere automáticamente un bloque de interconexión y arbitraje AXI y las líneas de dirección y datos del bus.
-  * Conectar Lineas de Interrupción
+  * Conectar líneas de Interrupción
     * Conectar La salida del bloque concat al *ZYNQ Processor System*.
     * Conectar cada una de las líneas de interrupción de los bloques IP perifericos agregados al bloque *Concat*.
     ![TEXTO_DESC](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Screenshot_20200416_193211.png "Configurando GPIO")
