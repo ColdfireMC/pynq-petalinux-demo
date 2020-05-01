@@ -14,8 +14,7 @@ Cerrar la ventana con <kbd>OK</kbd>
         * Ir a la seccion "*Interrupts*".
         * Habilitar "Enable PS-PL Interrupts".
         * Habilitar "Enable Shared Interrupts".
-       
-* Conectar `FCLK_CLK0` con `M_AXI_GP0_ACLK`. Este reloj tambien sera el reloj principal del bus AXI.
+    * Conectar `FCLK_CLK0` con `M_AXI_GP0_ACLK`. Este reloj tambien sera el reloj principal del bus AXI.
 ![TEXTO_DESC](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Screenshot_20200416_191246.png "Conectar Reloj Principal al Bus AXI"). (Los *Warnings* no generan mayores problemas).
 * Agregar y Configurar IP's
     * Agregar *Processor System Reset* y *Run Connection Automation*
@@ -33,7 +32,7 @@ Cerrar la ventana con <kbd>OK</kbd>
     * Configurar *AXI GPIO*: Doble clic en el bloque
       * Habilitar Interrupciones
       ![TEXTO_DESC](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Screenshot_20200416_192347.png "Configurando GPIO")
-      * Puede seleccionarse a que conectar cada interfaz GPIO, a las conexiones disponibles en el preset de la placa. Si se desea conectar RTL o usar los nombres de los .xdc, debe seleccionarse *Custom* y crear un puerto (Véase Agregar RTL).
+      * Puede seleccionarse a que conectar cada interfaz GPIO, a las conexiones disponibles en el preset de la placa. Si se desea conectar RTL o usar los nombres de los .xdc, debe seleccionarse *Custom* y crear un puerto.
       ![TEXTO_DESC](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Screenshot_20200416_193423.png "Configurando GPIO")
       ![TEXTO_DESC](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Screenshot_20200416_193445.png "Configurando GPIO")
     * Los otros bloques usan en este caso la configuración predeterminada.
@@ -88,7 +87,7 @@ Como el proyecto solo tiene referenciado el terminal, solo habrá como parámetr
 ### Configurando estructura del ejecutable ###   
 
 Al seleccionar "ldscript.ld" del árbol aparecerá en la sección principal la configuración del ejecutable
-![TEXTO_DESC](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-vitis-doc/Screenshot_20200430_210611.png "Configuración Ejecutable").
+![TEXTO_DESC](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-vitis-doc/Screenshot_20200430_210611.png "Configuración Ejecutable")
 * "Available Memory Regions": Lista las regiones de memoria disponibles. En este caso se habían creado 2 regiones de memoria, la memoria local y la memoria "Empotrada" en el *FPGA*.
 * "Stack and Heap Sizes": Controla el tamaño de tales regiones. El "Stack" almacena las direcciones y las Flags de retorno de las llamadas, por lo tanto, un programa más complejo, requerirá mas "Stack". "Heap" es una estructura de datos tipo montículo que se usa para asignar memoria dinámicamente. Un programa que genere estructuras de datos que crecen con el paso de la ejecución requerirá más "Heap". Los campos permiten establecer el tamaño de ambas secciones. Si es que no se compartirá la memoria con nada más, se recomienda ocuparla completamente. Una buena medida es darle al Stack el 25% o el 50% del total y el resto para el montículo.
 * "Section to Memory Region Mapping": Muestra la asociación entre las secciones del ejecutable y las regiones de memoria
@@ -113,7 +112,7 @@ Nótese que al final hay una llamada a `cleanup_platform()` definida en "platfor
 
 ### Generando Ejecutable ###
 
-Al presionar "build" (el martillo) se construye la aplicación y el entorno, completos, según el objetivo que se haya establecido. Al lado del ícono, aparece una flecha, donde se puede seleccionar el objetivo de compilación ("Debug", "Release" u otro que se haya creado).
+Al presionar "build" (el martillo) se construye la aplicación (holamundo_pynq_system) y el entorno que se le ha asociado, según el objetivo que se haya establecido. Al lado del ícono, aparece una flecha, donde se puede seleccionar el objetivo de compilación ("Debug", "Release" u otro que se haya creado).
 
 ### Generando Imagen ###
 
@@ -123,13 +122,13 @@ Aparece la ventana de generación de imagen de arranque. Si se contruyó la imag
 
 Si no se desean agregar más particiones, presionar <kbd>Create Image</kbd>.
 
-![TEXTO_DESC](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-vitis-doc/Screenshot_20200430_232637.png "Generando Bitstream")
+![TEXTO_DESC](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-vitis-doc/Screenshot_20200430_232637.png "Generando Imagen")
 
 ### *Flasheando* Imagen ###
 
 En el arbol, botón derecho en holamundo_pynq_system.![TEXTO_DESC](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-vitis-doc/Screenshot_20200430_233849.png "Flasheando")
 Aparece la ventana de Flasheo. ![TEXTO_DESC](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-vitis-doc/Screenshot_20200430_234447.png "Flasheando")
-Presionar <kbd>Program</kbd>. Esto tardará bastante tiempo. Asegurarse de que no se interrumpirá el suministro de energía de la placa. De interrumpirse, podría "Regrabarse" la memoria cambiando la configuración de los jumpers a otra que no haga al FPGA arrancar con la memoria SPI (Por ejemplo JTAG).
+Presionar <kbd>Program</kbd>. Esto tardará bastante tiempo. Asegurarse de que no se interrumpirá el suministro de energía de la placa. De interrumpirse, podría "regrabarse" la memoria cambiando la configuración de los jumpers de la tarjeta de desarrollo a otra que no haga al FPGA arrancar con la memoria SPI (Por ejemplo JTAG).
 
 ## Problemas Conocidos ##
 * La "actualización" de plataformas no es capaz de encontrar el bitstream exportado por Vivado, asi que cada vez que se altere la plataforma, debe recrearse nuevamente. Esto rompe parte de la característica de portabilidad Automática.
