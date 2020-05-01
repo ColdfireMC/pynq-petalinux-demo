@@ -88,7 +88,7 @@ Como el proyecto solo tiene referenciado el terminal, solo habrá como parámetr
 
 Al seleccionar "ldscript.ld" del árbol aparecerá en la sección principal la configuración del ejecutable
 ![TEXTO_DESC](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-vitis-doc/Screenshot_20200430_210611.png "Configuración Ejecutable")
-* "Available Memory Regions": Lista las regiones de memoria disponibles. En este caso se habían creado 2 regiones de memoria, la memoria local y la memoria "Empotrada" en el *FPGA*.
+* "Available Memory Regions": Lista las regiones de memoria disponibles en el sistema.
 * "Stack and Heap Sizes": Controla el tamaño de tales regiones. El "Stack" almacena las direcciones y las Flags de retorno de las llamadas, por lo tanto, un programa más complejo, requerirá mas "Stack". "Heap" es una estructura de datos tipo montículo que se usa para asignar memoria dinámicamente. Un programa que genere estructuras de datos que crecen con el paso de la ejecución requerirá más "Heap". Los campos permiten establecer el tamaño de ambas secciones. Si es que no se compartirá la memoria con nada más, se recomienda ocuparla completamente. Una buena medida es darle al Stack el 25% o el 50% del total y el resto para el montículo.
 * "Section to Memory Region Mapping": Muestra la asociación entre las secciones del ejecutable y las regiones de memoria
 
