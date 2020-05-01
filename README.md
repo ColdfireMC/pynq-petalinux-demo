@@ -69,17 +69,12 @@ Después de exportar el hardware, Abrir Xilinx Vitis. Al ser similar a Eclipse c
 
 * Crear una aplicación *Baremetal* 
  * Ir a "File"->"Project"->"Application"
+ ![TEXTO_DESC](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-vitis-doc/Screenshot_20200430_010058.png "Creando proyecto de Aplicación")
  * Darle un nombre al proyecto. No ponerle espacios al nombre.
- * Selecionar la plataforma del proyecto. Puede seleccionarse una plataforma existente (Lamentablemente está *buggy* no ocupar) o crear una nueva. ![TEXTO_DESC](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-vitis-doc/Screenshot_20200423_183739.png "Configurando proyecto de Aplicación")
- 
-  * Al presionar <kbd>Next</kbd>, debe seleccionarse que método será usado para generar la plataforma. 
-  
-  ![TEXTO_DESC](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-vitis-doc/Screenshot_20200423_183750.png "Configurando Plataforma")
-  
-  Seleccionar "Create new platform from Hardware (XSA)". La ventana tiene un campo donde se listan plataformas recientes disponibles en los ejemplos o bien dentro del *Workspace*. Seleccionar "Create new platform from Hardware (XSA)".Si se necesita importar una plataforma de elaboración propia (el presente caso), debe hacer clic en "+" y seleccionar la carpeta donde se encuentra el archivo `.xsa` que se generó al exportar hardware con Vivado.![TEXTO_DESC](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-vitis-doc/Screenshot_20200423_183803.png "Importando Hardware") 
-  presionar <kbd>Next</kbd>, después de seleccionar la plataforma recién agregada.![TEXTO_DESC](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-vitis-doc/Screenshot_20200423_183813.png "Importando Hardware")   
-   * Ahora debe seleccionarse el *Domain* de la plataforma. En este caso, en cada campo debe seleccionarse "Microblaze_0"(Podría haber más de un procesador independiente dentro del sistema que se ha importado), "Standalone" y "C". 
-   ![TEXTO_DESC](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-vitis-doc/Screenshot_20200423_183821.png "Seleccionando Dominio")
+ * Selecionar la plataforma del proyecto. Puede seleccionarse una plataforma existente (Lamentablemente está *buggy* no ocupar) o crear una nueva. ![TEXTO_DESC](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-vitis-doc/Screenshot_20200430_021910.png "Nombre proyecto de Aplicación")
+ * Al presionar <kbd>Next</kbd>, debe seleccionarse que método será usado para generar la plataforma.![TEXTO_DESC](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-vitis-doc/Screenshot_20200423_183750.png "Configurando Plataforma") Seleccionar "Create new platform from Hardware (XSA)". La ventana tiene un campo donde se listan plataformas recientes disponibles en los ejemplos o bien dentro del *Workspace*. Seleccionar "Create new platform from Hardware (XSA)".Si se necesita importar una plataforma de elaboración propia (el presente caso), debe hacer clic en "+" y seleccionar la carpeta donde se encuentra el archivo `.xsa` que se generó al exportar hardware con Vivado.![TEXTO_DESC](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-vitis-doc/Screenshot_20200423_183803.png "Importando Hardware") Presionar <kbd>Next</kbd>, después de seleccionar la plataforma recién agregada.![TEXTO_DESC](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-vitis-doc/Screenshot_20200423_183813.png "Importando Hardware")   
+   * Ahora debe seleccionarse el *Domain* de la plataforma. En este caso, en cada campo debe seleccionarse "ps7_cortexa9_0"(Podría haber más de un procesador independiente dentro del sistema que se ha importado), "Standalone" y "C". También debe seleccionarse "Generate Boot components"
+   ![TEXTO_DESC](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-vitis-doc/Screenshot_20200430_022033.png "Seleccionando Arquitectura")
    * Al presionar <kbd>Next</kbd>, debe seleccionarse un *Template* para este caso, se seleccionará "Hello World".![TEXTO_DESC](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-vitis-doc/Screenshot_20200423_183848.png "Seleccionando Template")
    * Al presionar <kbd>Next</kbd> quedará disponible el entorno de vitis![TEXTO_DESC](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-vitis-doc/Screenshot_20200423_183915.png "Estado inicial del proyecto")
 
@@ -89,19 +84,33 @@ En el arbol o **Explorer**, pueden verse los directorios del proyecto.
 
 ### Configurando parámetros de plataforma ###
 
-Como el proyecto solo tiene referenciado el terminal, solo habrá como parámetro configurable, la velocidad de transferencia del *UART*. En "platform.c", debe especirficarse en la (línea 49) la velocidad deseada. Esta es la velocidad que se deberá configurar en el terminal más tarde.![TEXTO_DESC](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-vitis-doc/Screenshot_20200423_184026.png "Configuración UART")
+Como el proyecto solo tiene referenciado el terminal, solo habrá como parámetro configurable, la velocidad de transferencia del *UART*. En "platform.c", debe especirficarse en la la velocidad deseada. Esta es la velocidad que se deberá configurar en el terminal más tarde.![TEXTO_DESC](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-vitis-doc/Screenshot_20200423_184026.png "Configuración UART")
   
 ### Configurando estructura del ejecutable ###   
 
 Al seleccionar "ldscript.ld" del árbol aparecerá en la sección principal la configuración del ejecutable
-![TEXTO_DESC](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-vitis-doc/Screenshot_20200423_191702.png "Configuración UART").
-* "Available Memory Regions": Lista las regiones de memoria disponibles. En este caso se habían creado 2 regiones de memoria, la memoria local y la memoria "Empotrada" en el *FPGA*. 
+![TEXTO_DESC](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-vitis-doc/Screenshot_20200430_210611.png "Configuración Ejecutable").
+* "Available Memory Regions": Lista las regiones de memoria disponibles. En este caso se habían creado 2 regiones de memoria, la memoria local y la memoria "Empotrada" en el *FPGA*.
 * "Stack and Heap Sizes": Controla el tamaño de tales regiones. El "Stack" almacena las direcciones y las Flags de retorno de las llamadas, por lo tanto, un programa más complejo, requerirá mas "Stack". "Heap" es una estructura de datos tipo montículo que se usa para asignar memoria dinámicamente. Un programa que genere estructuras de datos que crecen con el paso de la ejecución requerirá más "Heap". Los campos permiten establecer el tamaño de ambas secciones. Si es que no se compartirá la memoria con nada más, se recomienda ocuparla completamente. Una buena medida es darle al Stack el 25% o el 50% del total y el resto para el montículo.
-* "Section to Memory Region Mapping": Debido a que la inicialización del sistema viene incorporada en la misma aplicación, no es posible cargar el ejecutable directo en la DRAM, porque no existirá a la hora de extraer el contenido de la *Flash*, o Grabar el *bitstream* por lo tanto, todas las secciones del ejecutable excepto "Heap" y "Stack" deberán mapearse a la memoria BRAM interna. "Heap" y "Stack" deberían mapearse a la memoria DRAM (`mig_7series_0_memaddr`) si se desea tener máxima capacidad. 
+* "Section to Memory Region Mapping": Muestra la asociación entre las secciones del ejecutable y las regiones de memoria
 
 ### Editando el código fuente ###
 
-En este caso "helloworld.c" es el archivo con el procedimiento `main`. Todo lo que se desea que el programa haga en su cuerpo principal debería ser agregado aquí. Nótese que al final hay una llamada a `cleanup_platform()` definida en "platform.c". Si se desean agregar más acciones, deben editarse ahí.
+En este caso "helloworld.c" es el archivo con el procedimiento `main`. Todo lo que se desea que el programa haga en su cuerpo principal debería ser agregado aquí. Para propósitos de prueba, modificar el programa en la linea
+```C
+    print("Hello World\n\r");
+````
+por
+```C
+ unsigned long count=0;
+    while(1)
+    {
+    printf("Hello World\n\r");
+    printf("%lu", count);
+    count++;
+    }
+```
+Nótese que al final hay una llamada a `cleanup_platform()` definida en "platform.c". Si se desean agregar más acciones, deben editarse ahí.
 
 ### Generando Ejecutable ###
 
@@ -109,22 +118,25 @@ Al presionar "build" (el martillo) se construye la aplicación y el entorno, com
 
 ### Generando Imagen ###
 
-Del menú "Xilinx" debe seleccionarse "Program FPGA". Luego debe adjuntarse a la imagen, la aplicación recién compilada, en el procesador que aparece. Nótese que podría haber más de un procesador, y que en realidad este depende de la plataforma importada y no de la aplicación. ![TEXTO_DESC](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-vitis-doc/Screenshot_20200423_185312.png "Generando Bitstream") Luego de eso debe presionarse <kbd>Generate</kbd>. ![TEXTO_DESC](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-vitis-doc/Screenshot_20200423_185301.png "Generando Bitstream") Esto tomará unos instantes.
+En el arbol, botón derecho en holamundo_pynq_system.![TEXTO_DESC](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-vitis-doc/Screenshot_20200430_224449.png "Generando Bitstream"). 
+
+Aparece la ventana de generación de imagen de arranque. Si se contruyó la imagen correctamente, debería aparecer, si se seleccionar "Import from existing BIF file", las sigueintes particiones de *Flash* ![TEXTO_DESC](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-vitis-doc/Screenshot_20200430_224508.png "Generando Bitstream")
+
+Si no se desean agregar más particiones, presionar <kbd>Create Image</kbd>.
+
+![TEXTO_DESC](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-vitis-doc/Screenshot_20200430_232637.png "Generando Bitstream")
 
 ### *Flasheando* Imagen ###
 
-Del menú "Xilinx" debe seleccionarse "Program Flash". Asegurarse que la tarjeta de desarrollo esté encendida.
-![TEXTO_DESC](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-vitis-doc/Screenshot_20200423_192405.png "Program Flash") 
-* Debe seleccionarse la imagen para grabar. Usando <kbd>Search</kbd> aparecerá la siguiente ventana. ![TEXTO_DESC](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-vitis-doc/Screenshot_20200425_031005.png "Seleccionando Imagen") Seleccionar "download.bit", que es la imagen que se acaba de generar con el *bitstream* y la aplicación incluida.
-* Especificar modelo de flash donde se grabará. Esta normalmente sale en el manual de referencia de la tarjeta. ![TEXTO_DESC](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-vitis-doc/Screenshot_20200423_192958.png "Flash SPI de Nexys Video") En este caso debe seleccionarse s25fl256xxxxxx0 (Fabricada por Spansion).
-* Presionar <kbd>Program</kbd>. Esto tardará bastante tiempo. Asegurarse de que no se interrumpirá el suministro de energía de la placa. De interrumpirse, podría "Regrabarse" la memoria cambiando la configuración de los jumpers a otra que no haga al FPGA arrancar con la memoria SPI.
-
+En el arbol, botón derecho en holamundo_pynq_system.![TEXTO_DESC](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-vitis-doc/Screenshot_20200430_233849.png "Flasheando")
+Aparece la ventana de Flasheo. ![TEXTO_DESC](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-vitis-doc/Screenshot_20200430_234447.png "Flasheando")
+Presionar <kbd>Program</kbd>. Esto tardará bastante tiempo. Asegurarse de que no se interrumpirá el suministro de energía de la placa. De interrumpirse, podría "Regrabarse" la memoria cambiando la configuración de los jumpers a otra que no haga al FPGA arrancar con la memoria SPI (Por ejemplo JTAG).
 
 ## Problemas Conocidos ##
 * La "actualización" de plataformas no es capaz de encontrar el bitstream exportado por Vivado, asi que cada vez que se altere la plataforma, debe recrearse nuevamente. Esto rompe parte de la característica de portabilidad Automática.
 * Cuando se crea primero una plataforma y después la aplicación, con el *Workspace* vacío, el mago generador de aplicaciones no puede encontrar la definición de plataforma ya creada y queda incompleta y no puede terminarse, o bien, debe seleccionarse una de las incluidas en Vitis y luego reasignar la plataforma manualmente (Cuidado con las inicializaciones, porque si fueron modificadas por el programador, serán totalmente incompatibles).
 * Pese a que los archivos de Digilent incluyen información sobre los dispositivos de la placa, hay que especificar la *Flash* SPI a mano.
-
+* Las opciones de los menús contextuales no tienen resultados consistentes. Asegurarse de no seleccionar una opción incorrecta, ya que parecerá que hay un problema o que la imagen se generó incorrectamente.
 
 ## Crear Proyectos Petalinux ##
 
