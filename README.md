@@ -139,27 +139,34 @@ Presionar <kbd>Program</kbd>. Esto tardará bastante tiempo. Asegurarse de que n
 ## Crear Proyectos Petalinux ##
 
 ### Instalando Petalinux ###
-
+Petalinux solo funciona en sistemas con Linux Instalado. Dado conflictos de versiones de bibliotecas, debe instalarse solo en las versiones que estan soportadas por Xilinx. Lamentablemente, a esta fecha, las versiones soportadas estan entrando en "Fin de soporte" o carecen de características o correcciones importantes (Como Centos 6 o Ubuntu 18.04).
+Para instalarlo basta con la siguiente secuencia de comandos, después de descargar "petalinux-v2019.2-final-installer.run" desde el sitio de Xilinx, aceptando los términos de contrato
 ```bash
 # mkdir /opt/pkg/petalinux/2019.2/
 # chown <su_usuario> /opt/pkg/petalinux/2019.2/
 $ ./petalinux-v2019.2-final-installer.run /opt/pkg/petalinux/2019.2
 ```
 ### Inicializando Entorno Petalinux ###
+Cada vez que vaya a utilizarse, debe inicializarse el entorno actual de trabajo con
 ```bash
 $ source <path-to-installed-PetaLinux>/settings.sh
 ```
-### Crear Proyectos Petalinux Desde BSP ###
+### Crear Proyectos Petalinux ###
+El entorno Petalinux necesita que se cree un proyecto, para poder construir Aplicaciones, Imágenes de Arranque, Núcleos (*Kernel*) o bibliotecas compartidas (.o, .so). Hay 2 maneras principales
+#### Crear Proyectos Petalinux Desde BSP ####
+A veces los fabricantes de tarjetas, entregan un "Paquete de soporte" con extensión .bsp, con una configuración predeterminada. Para poder construir una distribución de petalinux con estos paquetes, deben seguirse los siguientes pasos
+
 ```bash
 $ source <path-to-installed-PetaLinux>/settings.sh
 $ petalinux-create -t project -s <ruta_al_bsp>
 ```
 Deben ser de la misma versión mayor de Petalinux(No puede crearse un proyecto de 2019 con un BSP 2014).
 
-### Crear Proyectos Petalinux Desde Definición de Hardware Generada con Vivado ###
+#### Crear Proyectos Petalinux Desde Definición de Hardware Generada con Vivado ####
+En este caso, el desarrollador ha construido su propio sistema con Vivado, probablemente incluyendo su propia RTL y condiguración de IP. En este caso
 ```bash
 $ source <path-to-installed-PetaLinux>/settings.sh
-petalinux-create --type project --template zynq --name <nombre_del_proyecto>
+$ petalinux-create --type project --template zynq --name <nombre_del_proyecto>
 ```
 Esto creará una carpeta con el nombre del proyecto, luego debe configurarse el proyecto con la definición de hardware creada con Vivado
 
@@ -178,15 +185,15 @@ $ petalinux-build
 Esto podría tardar hasta 15 minutos
 
 ### Generar Imagen empaquetada Para SD ###
-Las imágenes construidas van a estar en `<carpeta_con_nombre_del_proyecto>/images/linux`. 
+Para poder cargar el sistema desde una SD, deben empaquetarse las imaganes recién compiladas. Las imágenes construidas van a estar en `<carpeta_con_nombre_del_proyecto>/images/linux`. 
 ```bash
 $ petalinux-package --boot --fsbl <Imagen FSBL> --fpga <bitstream> --u-boot
 ```
-o bien, si solo hay una configuración
+o bien, si solo hay una configuración reciente
 ```bash
 $ petalinux-package
 ```
-los archivos `BOOT.BIN` e `image.ub` en `<carpeta_con_nombre_del_proyecto>/images/linux` deben ser copiados a una sd con formato FAT32. Esto es suficiente para que el Zynq logre arrancar Petalinux
+Finalmente los archivos `BOOT.BIN` e `image.ub` en `<carpeta_con_nombre_del_proyecto>/images/linux` deben ser copiados a una SD con formato FAT32. Esto es suficiente para que el Zynq logre arrancar Petalinux. No olvide poner el *Jumper* "JP4" en la posición "SD" en la tarjeta "Pynq"
 
 ### Generar Imagen empaquetada Para SPI ###
 
@@ -206,5 +213,5 @@ $ petalinux-config -c kernel
 $ petalinux-config -c rootfs
 ```
 Al hacer cualquiera de estos cambios, la imagen debe reconstruirse. Luego con la tarjeta conectada y con Xilinx Vitis, debe crearse una aplicación del mismo modo que una aplicación baremetal. Asegurarse que se está referenciando la plataforma correcta. 
-![TEXTO_DESC](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-vitis-doc/Screenshot_20200430_010058.png "Generando Imagen de arranque").
-
+ 
+ ## En construcción ###
