@@ -136,7 +136,8 @@ Presionar <kbd>Program</kbd>. Esto tardará bastante tiempo. Asegurarse de que n
 
 ### Instalando Petalinux ###
 Petalinux solo funciona en sistemas con Linux Instalado. Dado conflictos de versiones de bibliotecas, debe instalarse solo en las versiones que estan soportadas por Xilinx. Lamentablemente, a esta fecha, las versiones soportadas estan entrando en "Fin de soporte" o carecen de características o correcciones importantes (Como Centos 6 o Ubuntu 18.04).
-Para instalarlo basta con la siguiente secuencia de comandos, después de descargar "petalinux-v2019.2-final-installer.run" desde el sitio de Xilinx, aceptando los términos de contrato
+Para instalarlo basta con la siguiente secuencia de comandos, después de descargar [Petalinux](https://www.xilinx.com/products/design-tools/embedded-software/petalinux-sdk.html#licensing "petalinux-v2019.2-final-installer.run")
+ "petalinux-v2019.2-final-installer.run" desde el sitio de Xilinx, aceptando los términos de contrato
 ```bash
 # mkdir /opt/pkg/petalinux/2019.2/
 # chown <su_usuario> /opt/pkg/petalinux/2019.2/
