@@ -83,7 +83,7 @@ Como el proyecto solo tiene referenciado el terminal, solo habrá como parámetr
 Al seleccionar "ldscript.ld" del árbol aparecerá en la sección principal la configuración del ejecutable ![Configuración Ejecutable](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-vitis-doc/Screenshot_20200430_210611.png "Configuración Ejecutable")
 * "Available Memory Regions": Lista las regiones de memoria disponibles en el sistema.
 * "Stack and Heap Sizes": Controla el tamaño de tales regiones. El "Stack" almacena las direcciones y las Flags de retorno de las llamadas, por lo tanto, un programa más complejo, requerirá mas "Stack". "Heap" es una estructura de datos tipo montículo que se usa para asignar memoria dinámicamente. Un programa que genere estructuras de datos que crecen con el paso de la ejecución requerirá más "Heap". Los campos permiten establecer el tamaño de ambas secciones. Si es que no se compartirá la memoria con nada más, se recomienda ocuparla completamente. Una buena medida es darle al Stack el 25% o el 50% del total y el resto para el montículo.
-* "Section to Memory Region Mapping": Muestra la asociación entre las secciones del ejecutable y las regiones de memoria
+* "Section to Memory Region Mapping": Muestra la asociación entre las secciones del ejecutable y las regiones de memoria. En el caso del PS del Zynq, la memoria DRAM está configurada al arranque, por lo tanto puede ocuparse completamente.
 
 ### Editando el código fuente ###
 
@@ -123,6 +123,7 @@ En el arbol, botón derecho en holamundo_pynq_system.![Flasheando](https://githu
 Aparece la ventana de Flasheo. ![Flasheando](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-vitis-doc/Screenshot_20200430_234447.png "Flasheando")
 Presionar <kbd>Program</kbd>. Esto tardará bastante tiempo. Asegurarse de que no se interrumpirá el suministro de energía de la placa. De interrumpirse, podría "regrabarse" la memoria cambiando la configuración de los jumpers de la tarjeta de desarrollo a otra que no haga al FPGA arrancar con la memoria SPI (Por ejemplo JTAG).
 
+Para más información sobre las posibles aplicaciones del modo *Baremetal* véase la [API Baremetal de Xilinx](https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/18841745/Baremetal+Drivers+and+Libraries "Altassian Xilinx Baremetal").
 ## Problemas Conocidos ##
 * La "actualización" de plataformas no es capaz de encontrar el bitstream exportado por Vivado, asi que cada vez que se altere la plataforma, debe recrearse nuevamente. Esto rompe parte de la característica de portabilidad automática.
 * Cuando se crea primero una plataforma y después la aplicación, con el *Workspace* vacío, el *Wizard* generador de aplicaciones no puede encontrar la definición de plataforma ya creada y queda incompleta y no puede terminarse, o bien, debe seleccionarse una de las incluidas en Vitis y luego reasignar la plataforma manualmente (Cuidado con las inicializaciones, porque si fueron modificadas por el programador, serán totalmente incompatibles).
@@ -177,7 +178,7 @@ $ petalinux-build
 Esto podría tardar hasta 15 minutos
 
 ### Generar Imagen empaquetada Para SD ###
-Para poder cargar el sistema desde una SD, deben empaquetarse las imaganes recién compiladas. Las imágenes construidas van a estar en `<carpeta_con_nombre_del_proyecto>/images/linux`. 
+Para poder cargar el sistema desde una SD, deben empaquetarse las imágenes recién compiladas. Las imágenes construidas van a estar en `<carpeta_con_nombre_del_proyecto>/images/linux`. 
 ```bash
 $ petalinux-package --boot --fsbl <Imagen FSBL> --fpga <bitstream> --u-boot
 ```
@@ -185,7 +186,7 @@ o bien, si solo hay una configuración reciente
 ```bash
 $ petalinux-package
 ```
-Finalmente los archivos `BOOT.BIN` e `image.ub` en `<carpeta_con_nombre_del_proyecto>/images/linux` deben ser copiados a una SD con formato FAT32. Esto es suficiente para que el Zynq logre arrancar Petalinux. No olvide poner el *Jumper* "JP4" en la posición "SD" en la tarjeta "Pynq"
+Finalmente, los archivos `BOOT.BIN` e `image.ub` en `<carpeta_con_nombre_del_proyecto>/images/linux` deben ser copiados a una SD con formato FAT32. Esto es suficiente para que el Zynq logre arrancar Petalinux. No olvide poner el *Jumper* "JP4" en la posición "SD" en la tarjeta.
 
 ### Generar Imagen empaquetada Para SPI ###
 
