@@ -1,19 +1,21 @@
 # *Setup* Básico Con Digilent *PYNQ* #
 
 * Crear un "Block Design" de Vivado.
-* Importar *Constraints*, si se desea agregar RTL (Prefiera activar copiar el .xdc dentro del proyecto).	
-* Agregar un PS "ZYNQ 7 Processing System" (CPU principal).
+
+* Importar *Constraints*, si se desea agregar RTL (Prefiera activar copiar el .xdc dentro del proyecto).
+
+* Agregar un PS "ZYNQ 7 Processing System". Este será el CPU principal del diseño. Los dispositivos de la familia Zynq incluyen un CPU interno. Este bloque lo hace visible al diseño de bloques.
 ![Agregando un PS](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Screenshot_20200416_181928.png "Agregando un PS")
 * Configurar el CPU principal.
     * Ejecutar "Run block Automation". Esto configurara la memoria DRAM y el reloj.
 ![Autoconfigurar PS](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Screenshot_20200416_182012.png "Autoconfigurar PS")
 ![Autoconfigurar PS](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Screenshot_20200416_182859.png "Autoconfigurar PS")
 Cerrar la ventana con <kbd>OK</kbd>
-    * Doble clic al bloque ZYNQ (Esto produce el comando "Re-customize" IP).
+    * Habilitar Interrupciones externas: El sistema tiene un sistema de interrupciones interno para los *timers* y los controladores integrados, como serial y USB. También dispone de un sistema de interrupciones relacionadas con tejido de FPGA. Perifericos instanciados como IP podrían requerir estas interrupciones Para agregarlos, doble clic al bloque ZYNQ (Esto produce el comando "Re-customize" IP).
     ![Configurando Interrupciones del PS](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Screenshot_20200416_182859.png "Configurando Interrupciones del PS")
         * Ir a la seccion "*Interrupts*".
-        * Habilitar "Enable PS-PL Interrupts".
-        * Habilitar "Enable Shared Interrupts".
+        * Habilitar "Enable PS-PL Interrupts". Esto habilita las interrupciones provenientes del tejido, que van al CPU.
+        * Habilitar "Enable Shared Interrupts". Estas serían las interrupciones que admiten ser compartidas, desde el punto de vista del software.
     * Conectar `FCLK_CLK0` con `M_AXI_GP0_ACLK`. Este reloj tambien sera el reloj principal del bus AXI.
 ![Conectar Reloj Principal al Bus AXI](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Screenshot_20200416_191246.png "Conectar Reloj Principal al Bus AXI") (Los *Warnings* no generan mayores problemas).
 * Agregar y Configurar IP's
@@ -21,27 +23,27 @@ Cerrar la ventana con <kbd>OK</kbd>
     ![*Run Connection Automation*_1](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Screenshot_20200416_191335.png "*Run Connection Automation*")
     ![*Run Connection Automation*_2](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Screenshot_20200416_192129.png "*Run Connection Automation*")
      ![*Run Connection Automation*_3](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Screenshot_20200416_192143.png "*Run Connection Automation*")
-    * Agregar *Concat*, *AXI IIC*, *AXI QUAD SPI* y 2 *AXI GPIO*.
+    * Agregar *Concat* (Para empaquetar las líneas de interrupción provenientes del tejido de FPGA), *AXI IIC* (Para el Shield y algunos PMODS) , *AXI QUAD SPI* y 2 *AXI GPIO* (Para luces y botones).
     ![Agregando Concat](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Screenshot_20200416_192221.png "Agregando Concat")
     ![Agregando GPIO](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Screenshot_20200416_192323.png "Agregando GPIO")
-    * Configurar bloque *Concat*: Dado que el tipo de `IRQ_F2P` no es compatible con las líneas de interrupcion, deben concatenarse las líneas en un solo vector lógico. Este bloque puede juntar las líneas de interrupción. Debe agregarse una entrada por cada interrupción
+    * Configurar bloque *Concat*: Dado que el tipo de `IRQ_F2P` no es compatible con las líneas de interrupcion, deben concatenarse las líneas en un solo vector lógico. Debe agregarse una entrada por cada interrupción
      * Doble Clic en *Concat*
      * Editar el ampo *Number of Ports*. En este caso serian 4 líneas (Una por cada dispositivo con Interrupción).![Configurando Concat](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Screenshot_20200416_192529.png "Configurando Concat")
     * Configurar *AXI GPIO*: Doble clic en el bloque
-      * Habilitar Interrupciones ![Configurando GPIO 1](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Screenshot_20200416_192347.png "Configurando GPIO")
+      * Habilitar Interrupciones. Para evitar *Polling* de los botones, es recomendable habilitar la interrupción del GPIO ![Configurando GPIO 1](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Screenshot_20200416_192347.png "Configurando GPIO")
       * Puede seleccionarse a que conectar cada interfaz GPIO, a las conexiones disponibles en el preset de la placa. Si se desea conectar RTL o usar los nombres de los .xdc, debe seleccionarse *Custom* y crear un puerto.![Configurando GPIO 2](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Screenshot_20200416_193423.png "Configurando GPIO") ![Configurando GPIO 3](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Screenshot_20200416_193445.png "Configurando GPIO")
     * Los otros bloques usan en este caso la configuración predeterminada.
-* Conectar los bloques de IP: Puede autoconectarse los bloques IP AXI. Nótese que la conexión automática no conecta las interrupciones y solo puede autoconectar un reloj.
-  * Hacer clic en el pop-up *Run Connection Automation
+* Conectar los bloques de IP: Puede autoconectarse los bloques IP AXI. Nótese que la conexión automática no conecta las interrupciones y solo puede autoconectar un árbol de reloj.
+  * Hacer clic en el pop-up *Run Connection Automation*.
   * Seleccionar todos los bloques en las casillas.
   Esto hará que se genere automáticamente un bloque de interconexión y arbitraje AXI y las líneas de dirección y datos del bus.
-  * Conectar líneas de Interrupción
+  * Conectar líneas de Interrupción al CPU principal
     * Conectar La salida del bloque concat al *ZYNQ Processor System*.
     * Conectar cada una de las líneas de interrupción de los bloques IP perifericos agregados al bloque *Concat*.
     ![Conectando Interrupciones](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Screenshot_20200416_193211.png "Conectando Interrupciones")
           
 ### Opcionales ###
-* Agregar BRAM 
+* Agregar BRAM. Puede ser de utilidad si se desea proveer o descargar datos de algun diseño en RTL, evitando el uso del bus AXI.
   * Agregar el bloque *BRAM Controller*.
   
   * Agregar el bloque *Block Memory Generator*.
@@ -190,6 +192,10 @@ Finalmente, los archivos `BOOT.BIN` e `image.ub` en `<carpeta_con_nombre_del_pro
 
 ### Generar Imagen empaquetada Para SPI ###
 
+La configuración predeterminada no tiene incorporado el arranque por SPI con la imagen linux dentro. De grabarlo en las condiciones normales, el bootloader intentaría cargar el bitstream de la SD o descargarlo por TFTP. El bootloader U-boot, debe ser modificado para 
+
+
+
 Las imágenes construidas van a estar en `<carpeta_con_nombre_del_proyecto>/images/linux`. 
 ```bash
 $ petalinux-package --boot --fsbl <Imagen FSBL> --fpga <bitstream> --u-boot
@@ -206,5 +212,4 @@ $ petalinux-config -c kernel
 $ petalinux-config -c rootfs
 ```
 Al hacer cualquiera de estos cambios, la imagen debe reconstruirse. Luego con la tarjeta conectada y con Xilinx Vitis, debe crearse una aplicación del mismo modo que una aplicación baremetal. Asegurarse que se está referenciando la plataforma correcta. 
- 
- ## En construcción ###
+
