@@ -44,12 +44,10 @@ Cerrar la ventana con <kbd>OK</kbd>
           
 ### Opcionales ###
 * Agregar BRAM. Puede ser de utilidad si se desea proveer o descargar datos de algun diseño en RTL, evitando el uso del bus AXI.
-  * Agregar el bloque *BRAM Controller*.
-  
-  * Agregar el bloque *Block Memory Generator*.
-  
+  * Agregar el bloque *BRAM Controller*.![Agregando BRAM](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Screenshot_20200503_235308.png "Agregando BRAM")
+  * Agregar el bloque *Block Memory Generator*.![Agregando BRAM](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Screenshot_20200503_235423.png "Agregando BRAM")
   Pueden configurarse las caracteristicas de la BRAM, como la cantidad de puertos, el ancho y la capacidad máxima.
-  
+  ![Agregando BRAM](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Screenshot_20200503_235555.png "Agregando BRAM")
 ## Generación de Productos ##
 * Crear *Wrapper* de HDL(botón derecho sobre el diseño de bloques (el archivo .bd, en la pestaña *Sources*). (Esto encapsula el diseño y lo hace referenciable por el simulador y el sintetizador).
 ![Generando Wrapper](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Screenshot_20200416_193758.png "Generando Wrapper")
@@ -191,11 +189,21 @@ $ petalinux-package
 Finalmente, los archivos `BOOT.BIN` e `image.ub` en `<carpeta_con_nombre_del_proyecto>/images/linux` deben ser copiados a una SD con formato FAT32. Esto es suficiente para que el Zynq logre arrancar Petalinux. No olvide poner el *Jumper* "JP4" en la posición "SD" en la tarjeta.
 
 ### Generar Imagen empaquetada Para SPI ###
+Las imágenes construidas van a estar en `<carpeta_con_nombre_del_proyecto>/images/linux`.
 
-La configuración predeterminada no tiene incorporado el arranque por SPI con la imagen linux dentro. De grabarlo en las condiciones normales, el bootloader intentaría cargar el bitstream de la SD o descargarlo por TFTP. El bootloader U-boot, debe ser modificado para 
-
-
-
+La configuración predeterminada no tiene incorporado el arranque por SPI con la imagen linux dentro. De grabarlo en las condiciones normales, el bootloader intentaría cargar el bitstream de la SD o descargarlo por TFTP. El bootloader U-boot, debe ser modificado para poder acceder a la memoria QSPI. Para esto deben configurarse las opciones globales y el componente `u-boot`
+```bash
+$ cd <carpeta_con_nombre_del_proyecto>
+$ petalinux-config --get-hw-description=<carpeta_del_proyecto_de_Vivado>
+```
+Cerciorarse de que el dispositivo principal es axi_spi_0 en la configuracion de dispositivo de arranque.
+Guardar la configuracion con <kbd>Save</kbd> y salir con <kbd>Exit</kbd>. Esto tardará algunos minutos en completarse.
+Luego debe configurarse el componente u-boot
+```bash
+$ cd <carpeta_con_nombre_del_proyecto>
+$ petalinux-config -c u-boot
+```
+Debe habilitarse el arranque por nand SPI y QSPI.
 Las imágenes construidas van a estar en `<carpeta_con_nombre_del_proyecto>/images/linux`. 
 ```bash
 $ petalinux-package --boot --fsbl <Imagen FSBL> --fpga <bitstream> --u-boot
@@ -209,7 +217,11 @@ Sin embargo debe notarse que la imagen predeterminada podría exceder ampliament
 ```bash
 $ cd <carpeta_con_nombre_del_proyecto>
 $ petalinux-config -c kernel
+```
+```bash
 $ petalinux-config -c rootfs
 ```
 Al hacer cualquiera de estos cambios, la imagen debe reconstruirse. Luego con la tarjeta conectada y con Xilinx Vitis, debe crearse una aplicación del mismo modo que una aplicación baremetal. Asegurarse que se está referenciando la plataforma correcta. 
+
+El template en este caso debe ser "FSBL" 
 
