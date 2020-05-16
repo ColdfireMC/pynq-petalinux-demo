@@ -265,12 +265,50 @@ Finalmente, si la imagen Fue grabada exitosamente, después de cargar, un termin
 
 
 ## Problemas Conocidos ##
+
 * Los ítems del árbol de Vitis no tienen menús contextuales consistentes, es decir, pese a que las opciones podrían ser no válidas, los menús contextuales no deshabilitarán las opciones. Esto puede resultar confuso, o incluso destruir el proyecto al borrar las configuraciones iniciales. 
 * ADVERTENCIA: Cerciorarse que el bitstream que está siendo cargado ya sea en SD o SPI es exactamente el correspondiente a la tarjeta y su diseño. Si se especifica uno diferente podría causar que el FPGA se comporte de manera errática. Algunas tarjetas como Nexys, tienen control sobre el regulador de tensión, lo que permite en términos prácticos, controlar el voltaje del FPGA. Sin embargo en una placa con un FPGA que no esté diseñado para esto, graves daños al regulador, FPGA y a la placa pueden ocurrir si el reguldor es configurado de una manera que no está soportada. Del mismo modo, las interfaces de memoria y los pines a los que se les ha especificado cierto estandar lógico fijo a la placa, podrían fallar y comportarse erraticamente si se especifica un bitstream incorrecto. El FSBL no valida por ningún método que el bitstream corresponde exactamente al modelo de dispositivo y placa, sólo verifica el tipo (FPGA, SOC). No se recomienda probar MicroSD's o imágenes de flash que no se sepa su contenido exacto.
 * A veces las ventanas de los menús contextuales olvidan las configuraciones y hay que especificarlas nuevamente. Esto es particularmente notorio en la ventana "Create Boot Image" en la especificación de Offsets y Alineaciones.
 * A veces la placa fallará el *flasheo* si se comienza a flashear con JP1 en una posición que no sea JTAG. En ese caso, poner el jumper en la posicion JTAG antes de grabar, luego grabar y final apagar la tarjeta y volver a ponerlo en QSPI.
 * Las políticas de *Sleep* del cpu vienen de un modo predeterminado muy agresivo y el CPU al entrar en modo *Idle* sólo puede despertarse con una interrupción de timer interno o una excepción. En https://www.xilinx.com/support/answers/69143.html se describe un método para evitar este problema. 
 
+
 ## Depuración de Aplicaciones Baremetal ##
+
+Existen 2 alternativas para depurar una aplicación Baremetal.
+* Depuración del programa (Variables, Instrucciones Registros de CPU).
+No necesita nada especial de la RTL. El encapsulamiento de JTAG que provee el FTDI instalado en la placa, permite que no sea necesario operar con puerto serial y control de flujo, que si bien, es común su uso para depurar y permite gran parte de la funcionalidad de un depurador, no permite ver "en vivo" el contenido de los registros o la memoria, y tiene un comportamiento "conflictivo" si es que el programador pide paradas arbitrarias al programa desde el depurador. JTAG permite todo esto y más, dependiendo de lo que provea el CPU
+
+Ya exportado la descripción de hardware a Vitis, debe cambiarse el objetivo de compilación de la aplicación a Debug.
+
+Puede encargarse desde Vitis que comience la depuración del programa con "Run". Esto descargará la aplicación a la tarjeta usando JTAG. Dicho esto, no se recomienta usar el objetivo debug para grabar el archivo en ROM SPI, debido a que podría ocupar más espacio, ejecutarse lentamente, y el depurador necesita configuración adicional para leer los símbolos desde otras fuentes.
+
+Puede verse lo usual de un depurador: Volcado de memoria, Lista de llamadas, Registros y línea actual de código fuente.
+
+Pueden también usarse comandos adicionales del depurador GDB versionado por Xilinx para efectuar acciones no disponibles desde la GUI o cargar scripts.
+
+
+
+
+
+
+
+
+
+
+
+* Depuración del sistema completo: Permite depurar, desde el punto de vista programático, ciertos grupos de senales del bus del sistema y de la lógica del tejido de FPGA. Para habilitarlo, debe estar configurado en Vivado el Zynq-PS la habilitación del cross triggering.
+
+Puede habilitarse para uno o más nucleos del SOC Zynq.
+
+Al salir se podrá ver que el PS tiene lineas disponibles adicionales
+
+Al Hacer click en el pop-up Run Block Automation se agregran tantos System ILA como líneas se agregaron
+
+A los ILA, deben conectarse las señales y sus relojes pertenecientes al dominio de reloj de la señal correspondiente
+
+Debe notarse que las señales que se van a vigilar, no deberían exceder
+
+
 
 ## Depuración de Aplicaciones y Kernel Linux ##
