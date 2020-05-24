@@ -1,4 +1,4 @@
-# *Setup* Básico Con Digilent *PYNQ* #
+# *Setup* de Sistema Básico Con Digilent *PYNQ* #
 
 * Crear un "Block Design" de Vivado.
 
@@ -41,13 +41,17 @@ Cerrar la ventana con <kbd>OK</kbd>
     * Conectar La salida del bloque concat al *ZYNQ Processor System*.
     * Conectar cada una de las líneas de interrupción de los bloques IP perifericos agregados al bloque *Concat*.
     ![Conectando Interrupciones](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Screenshot_20200416_193211.png "Conectando Interrupciones")
-          
+           
 ### Opcionales ###
 * Agregar BRAM. Puede ser de utilidad si se desea proveer o descargar datos de algun diseño en RTL, evitando el uso del bus AXI.
   * Agregar el bloque *BRAM Controller*.![Agregando BRAM](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Screenshot_20200503_235308.png "Agregando BRAM")
   * Agregar el bloque *Block Memory Generator*.![Agregando BRAM](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Screenshot_20200503_235423.png "Agregando BRAM")
   Pueden configurarse las caracteristicas de la BRAM, como la cantidad de puertos, el ancho y la capacidad máxima.
   ![Agregando BRAM](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Screenshot_20200503_235555.png "Agregando BRAM")
+  * Al agregar regiones de memoria, debe verificarse donde fueron mapeadas, especialmente si se agregó memoria o si además del Zynq, por ejemplo, se instanció un coprocesador de apoyo en el tejido de FPGA, para eso debe verse el "Address Editor", accesible desde el menú tools.
+  ![Address Editor](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/  Screenshot_20200511_043715.png "Address Editor")
+  No Asignar direcciones a una región hará que la síntesis falle. Pueden remapearse regiones del diseño. Este mismo mapa será visible por Petalinux y Xilinx Vitis.
+
 ## Generación de Productos ##
 * Crear *Wrapper* de HDL(botón derecho sobre el diseño de bloques (el archivo .bd, en la pestaña *Sources*). (Esto encapsula el diseño y lo hace referenciable por el simulador y el sintetizador).
 ![Generando Wrapper](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Screenshot_20200416_193758.png "Generando Wrapper")
@@ -58,7 +62,7 @@ Cerrar la ventana con <kbd>OK</kbd>
 
 ## Aplicaciones *Baremetal* Con Xilinx Vitis ##
 
-Después de exportar el hardware, Abrir Xilinx Vitis. Al ser similar a Eclipse creará un *Workspace*. Los archivos de código fuente y del proyecto quedarán guardados en este entorno protegido, mientras se desarrolla la aplicación.
+Después de exportar el hardware, abrir Xilinx Vitis. Al ser similar a Eclipse creará un *Workspace*. Los archivos de código fuente y del proyecto quedarán guardados en este entorno protegido, mientras se desarrolla la aplicación.
 
 * Crear una aplicación *Baremetal* 
  * Ir a "File"->"Project"->"Application". ![Creando proyecto de Aplicación](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-vitis-doc/Screenshot_20200430_021604.png "Creando proyecto de Aplicación")
@@ -251,34 +255,65 @@ Si no está presente alguno de ellos, puede atribuírsele las siguientes razones
 * El template no es el correcto y está esperando que se especifique un código fuente con procedimiento `main`.
 
 Al estar presentes todos los componentes, debe agregársele la imagen de linux. En este caso, se trata de un archivo tipo .ub, que está en `<carpeta_con_nombre_del_proyecto>/images/linux`. Normalmente se llama `image.ub`. Esto puede lograrse con <kbd>Add</kbd>.
-
 ![Flasheando Bitstream](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-vitis-doc/Screenshot_20200512_012422.png "Flasheando Bitstream")
-
-Con <kbd>Browse</kbd> debe especificarse la ubicación de la imagen. Una vez especificada, la imagen debe situarse en el offset `0x520000` (Zynq 7000 embedded design tutorial). 
-
+Con <kbd>Browse</kbd> debe especificarse la ubicación de la imagen. Una vez especificada, la imagen debe situarse en el offset `0x520000` ([Zynq 7000 embedded design tutorial]https://www.xilinx.com/support/documentation/sw_manuals/xilinx2019_2/ug1165-zynq-embedded-design-tutorial.pdf "Embedded Design Tutorial PDF Xilinx). 
 ![Flasheando Bitstream](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-vitis-doc/Screenshot_20200512_012511.png "Flasheando Bitstream")
-
 Antes de generar la imagen, copiar la ruta del FSBL al portapapeles (Esto debido a un bug intermitente en el comando "Program Flash"). La imagen ahora puede crearse con <kbd>Create Image</kbd>.
-
 ![Flasheando Bitstream](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-vitis-doc/Screenshot_20200512_012539.png "Flasheando Bitstream")
-
 Ahora debe grabarse la imagen. En este momento la tarjeta debe estar conectada y el Servidor de Hardware de Xilinx debe tener la tarjeta reconocida. Seleccionando la aplicacion del arbol, click derecho y seleccionar "Program Flash".
 ![Flasheando Bitstream](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-vitis-doc/Screenshot_20200512_020753.png "Flasheando Bitstream")
-
 En el campo "FSBL" debe haber una imagen válida. Si la ventana reporta que la imagen seleccionada no existe, pegar la dirección que se había copiado al portapapeles. 
 Una vez especificado el FSBL, presionar <kbd>Program</kbd>
-![Flasheando Bitstream](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-vitis-doc/Screenshot_20200512_020753.png "Flasheando Bitstream")
 Finalmente, si la imagen Fue grabada exitosamente, después de cargar, un terminal serial debería mostrar el "login" de la distribución petalinux que se ha construido
 ![Flasheando Bitstream](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-vitis-doc/Screenshot_20200505_044035.png "Flasheando Bitstream")
 
 
 ## Problemas Conocidos ##
+
 * Los ítems del árbol de Vitis no tienen menús contextuales consistentes, es decir, pese a que las opciones podrían ser no válidas, los menús contextuales no deshabilitarán las opciones. Esto puede resultar confuso, o incluso destruir el proyecto al borrar las configuraciones iniciales. 
 * ADVERTENCIA: Cerciorarse que el bitstream que está siendo cargado ya sea en SD o SPI es exactamente el correspondiente a la tarjeta y su diseño. Si se especifica uno diferente podría causar que el FPGA se comporte de manera errática. Algunas tarjetas como Nexys, tienen control sobre el regulador de tensión, lo que permite en términos prácticos, controlar el voltaje del FPGA. Sin embargo en una placa con un FPGA que no esté diseñado para esto, graves daños al regulador, FPGA y a la placa pueden ocurrir si el reguldor es configurado de una manera que no está soportada. Del mismo modo, las interfaces de memoria y los pines a los que se les ha especificado cierto estandar lógico fijo a la placa, podrían fallar y comportarse erraticamente si se especifica un bitstream incorrecto. El FSBL no valida por ningún método que el bitstream corresponde exactamente al modelo de dispositivo y placa, sólo verifica el tipo (FPGA, SOC). No se recomienda probar MicroSD's o imágenes de flash que no se sepa su contenido exacto.
 * A veces las ventanas de los menús contextuales olvidan las configuraciones y hay que especificarlas nuevamente. Esto es particularmente notorio en la ventana "Create Boot Image" en la especificación de Offsets y Alineaciones.
 * A veces la placa fallará el *flasheo* si se comienza a flashear con JP1 en una posición que no sea JTAG. En ese caso, poner el jumper en la posicion JTAG antes de grabar, luego grabar y final apagar la tarjeta y volver a ponerlo en QSPI.
 * Las políticas de *Sleep* del cpu vienen de un modo predeterminado muy agresivo y el CPU al entrar en modo *Idle* sólo puede despertarse con una interrupción de timer interno o una excepción. En https://www.xilinx.com/support/answers/69143.html se describe un método para evitar este problema. 
 
+
 ## Depuración de Aplicaciones Baremetal ##
 
+Existen 2 alternativas para depurar una aplicación Baremetal.
+* Depuración del programa (Variables, Instrucciones Registros de CPU).
+No necesita nada especial de la RTL. El encapsulamiento de JTAG que provee el FTDI instalado en la placa, permite que no sea necesario operar con puerto serial y control de flujo, que si bien, es común su uso para depurar y permite gran parte de la funcionalidad de un depurador, no permite ver "en vivo" el contenido de los registros o la memoria, y tiene un comportamiento "conflictivo" si es que el programador pide paradas arbitrarias al programa desde el depurador. JTAG permite todo esto y más, dependiendo de lo que provea la red de Boundary Scan del CPU.
+
+Ya exportado la descripción de hardware a Vitis, debe cambiarse el objetivo de compilación de la aplicación a Debug.
+
+Puede encargarse desde Vitis que comience la depuración del programa con "Run". Esto descargará la aplicación a la tarjeta usando JTAG. Dicho esto, no se recomienta usar el objetivo debug para grabar el archivo en ROM SPI, debido a que podría ocupar más espacio, ejecutarse lentamente, y el depurador necesita configuración adicional para leer los símbolos desde otras fuentes.
+
+Puede verse lo usual de un depurador: Volcado de memoria, Lista de llamadas, Registros y línea actual de código fuente.
+
+Pueden también usarse comandos adicionales del depurador GDB versionado por Xilinx para efectuar acciones no disponibles desde la GUI o cargar scripts.
+
+* Depuración del sistema completo: Permite depurar, desde el punto de vista programático, ciertos grupos de senales del bus del sistema y de la lógica del tejido de FPGA. Para habilitarlo, debe estar configurado en Vivado el Zynq-PS la habilitación del cross triggering.
+![Flasheando Bitstream](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Screenshot_20200514_032817.png "Flasheando Bitstream")
+Puede habilitarse para uno o más nucleos del SOC Zynq.
+![Flasheando Bitstream](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Screenshot_20200514_032817.png "Flasheando Bitstream")
+Screenshot_20200514_032905.png
+Al salir se podrá ver que el PS tiene lineas disponibles adicionales
+![Flasheando Bitstream](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Screenshot_20200514_032817.png "Flasheando Bitstream")
+Screenshot_20200514_035919.png
+
+Al Hacer click en el pop-up Run Block Automation se agregran tantos System ILA como líneas se agregaron
+
+A los ILA, deben conectarse las señales y sus relojes pertenecientes al dominio de reloj de la señal correspondiente
+
+Debe notarse que las señales que se van a vigilar, no deberían exceder el reloj local
+
+
+
 ## Depuración de Aplicaciones y Kernel Linux ##
+
+
+## Otras Configuraciones del SOC Zynq ##
+
+#Configuración de I/O con el mapa de I/O#
+
+Del mismo modo que puede configurarse el layout de los mapeos de memoria en un PC, el soc Zynq ofrece remapeo de los dispositivos integrados. Debe tenerse en cuenta que solo es posible mapearlos en ubicaciones predeterminadas, y los perifericos internos conectados no pueden remapear sus conexiones al tejido de FPGA
+
