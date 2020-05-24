@@ -297,7 +297,7 @@ Puede habilitarse para uno o más nucleos del SOC Zynq.
 ![Flasheando Bitstream](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Screenshot_20200514_032817.png "Flasheando Bitstream")
 
 Al salir se podrá ver que el PS tiene lineas disponibles adicionales
-![Flasheando Bitstream](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Screenshot_20200514_032817.png "Flasheando Bitstream")
+![Flasheando Bitstream](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Screenshot_20200514_035919.png "Flasheando Bitstream")
 
 
 Al Hacer click en el pop-up Run Block Automation se agregran tantos System ILA como líneas se agregaron
