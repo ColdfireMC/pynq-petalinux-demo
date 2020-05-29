@@ -311,7 +311,7 @@ Debe notarse que las señales que se van a vigilar, no deberían exceder el relo
 ## Otras Configuraciones del SOC Zynq ##
 
 # Mapa de la estructura del SOC Zynq #
-![Mapa de Zynq](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pScreenshot_2020-05-28_21-18-23.png "")
+![Mapa de Zynq](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Screenshot_2020-05-28_21-18-23.png "Mapa de Zynq")
 
 # Configuración de I/O con el mapa de I/O #
 
