@@ -294,14 +294,11 @@ Pueden también usarse comandos adicionales del depurador GDB versionado por Xil
 * Depuración del sistema completo: Permite depurar, desde el punto de vista programático, ciertos grupos de senales del bus del sistema y de la lógica del tejido de FPGA. Para habilitarlo, debe estar configurado en Vivado el Zynq-PS la habilitación del cross triggering.
 ![Flasheando Bitstream](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Screenshot_20200514_032817.png "Flasheando Bitstream")
 Puede habilitarse para uno o más nucleos del SOC Zynq.
-![Flasheando Bitstream](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Screenshot_20200514_032817.png "Flasheando Bitstream")Al salir se podrá ver que el PS tiene lineas disponibles adicionales![Flasheando Bitstream](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Screenshot_20200514_035919.png "Flasheando Bitstream")
+Al salir se podrá ver que el PS tiene lineas disponibles adicionales. ![Cross trigger](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Screenshot_20200514_035919.png "Cross trigger")
 
-
-Al Hacer click en el pop-up Run Block Automation se agregran tantos System ILA como líneas se agregaron
-
+Al Hacer click en el pop-up "Run Block Automation se agregran tantos System ILA como líneas se agregaron.
 A los ILA, deben conectarse las señales y sus relojes pertenecientes al dominio de reloj de la señal correspondiente
-
-Debe notarse que las señales que se van a vigilar, no deberían exceder el reloj local
+Debe notarse que las señales que se van a vigilar, no deberían exceder el reloj local. De hacerlo podria inestabilizarse el circuito, o enviar informacion corrupta hacia el exterior.
 
 
 
@@ -311,7 +308,8 @@ Debe notarse que las señales que se van a vigilar, no deberían exceder el relo
 ## Otras Configuraciones del SOC Zynq ##
 
 # Mapa de la estructura del SOC Zynq #
-![Mapa de Zynq](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Screenshot_2020-05-28_21-18-23.png "Mapa de Zynq")
+![Mapa de Zynq](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Screenshot_2020-05-28_21-18-23.png "Mapa de Zynq").
+Este mapa resume las porciones configurables (Verdes), del PS de Zynq. Al hacer clic en ellas se puede acceder directamente a las pestañas asociadas.
 
 # Configuración de I/O con el mapa de I/O #
 
@@ -323,7 +321,6 @@ Si se desea "hacer externa" una conexión y que salga al Tejido de FPGA, puede s
 ![Resultado EMIO](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Screenshot_2020-05-28_21-20-27.png "Resultado EMIO")
 Los dispositivos integrados de los SOC, suelen ya estar alambrados de manera fija a las patas correspondientes del dispositivo, y no al tejido. Esto significa que no siempre será posible reemplazar un dispositivo integrado por uno del tejido FPGA, en el lugar, sin cambiar las conexiones. Lamentablemente, de momento, pese a que el archivo de la tarjeta tienes esta infomación, no es posible saber sin prueba y error desde la interfaz de vivado cual es el caso, hasta que llega el momento de implementar el diseño. En caso desfavorable, el proceso de implementación fallará y mostrará un error como este.
 ![Flasheando Bitstream](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Screenshot_2020-05-29_02-09-04.png "Flasheando Bitstream")
-
 En el caso de desear usar el Shield de PYNQ, debe utilizarse esta característica para tener pines GPIO e i2c, o bien usar un IP de GPIO.
 
 
