@@ -322,7 +322,7 @@ Cada bloque representa un rango de decodificación de I/O. No puede haber 2 disp
 Si se desea "hacer externa" una conexión y que salga al Tejido de FPGA, puede seleccionarse el modo EMIO del dispositivo. Al Hacerlo quedará disponible sus entrada/salidas al diseño de bloques.
 ![Resultado EMIO](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Screenshot_2020-05-28_21-20-27.png "Resultado EMIO")
 Los dispositivos integrados de los SOC, suelen ya estar alambrados de manera fija a las patas correspondientes del dispositivo, y no al tejido. Esto significa que no siempre será posible reemplazar un dispositivo integrado por uno del tejido FPGA, en el lugar, sin cambiar las conexiones. Lamentablemente, de momento, pese a que el archivo de la tarjeta tienes esta infomación, no es posible saber sin prueba y error desde la interfaz de vivado cual es el caso, hasta que llega el momento de implementar el diseño. En caso desfavorable, el proceso de implementación fallará y mostrará un error como este.
-![Flasheando Bitstream](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Screenshot_20200514_035919.png "Flasheando Bitstream")
+![Flasheando Bitstream](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Screenshot_2020-05-29_02-09-04.png "Flasheando Bitstream")
 
 En el caso de desear usar el Shield de PYNQ, debe utilizarse esta característica para tener pines GPIO e i2c, o bien usar un IP de GPIO.
 
