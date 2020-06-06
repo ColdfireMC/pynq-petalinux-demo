@@ -324,3 +324,4 @@ Los dispositivos integrados de los SOC, suelen ya estar alambrados de manera fij
 En el caso de desear usar el Shield de PYNQ, debe utilizarse esta característica para tener pines GPIO e i2c, o bien usar un IP de GPIO.
 
 
+https://es.slideshare.net/ZachPfeffer/beyond-printk-efficient-zynq-ultrascale-mpsoc-linux-debugging-and-development
