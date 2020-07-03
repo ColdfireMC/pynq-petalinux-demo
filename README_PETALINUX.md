@@ -74,6 +74,7 @@ $ cd <carpeta_con_nombre_del_proyecto>
 $ petalinux-config -c u-boot
 ```
 Debe habilitarse el arranque por nand SPI y QSPI.
+
 Las imágenes construidas van a estar en `<carpeta_con_nombre_del_proyecto>/images/linux`. 
 ```bash
 $ petalinux-package --boot --fsbl <Imagen FSBL> --fpga <bitstream> --u-boot
