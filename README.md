@@ -205,29 +205,6 @@ Finalmente, si la imagen Fue grabada exitosamente, después de cargar, un termin
 * Las políticas de *Sleep* del cpu vienen de un modo predeterminado muy agresivo y el CPU al entrar en modo *Idle* sólo puede despertarse con una interrupción de timer interno o una excepción. En https://www.xilinx.com/support/answers/69143.html se describe un método para evitar este problema. 
 
 
-## Depuración de Aplicaciones Baremetal ##
-
-Existen 2 alternativas para depurar una aplicación Baremetal.
-* Depuración del programa (Variables, Instrucciones Registros de CPU).
-No necesita nada especial de la RTL. El encapsulamiento de JTAG que provee el FTDI instalado en la placa, permite que no sea necesario operar con puerto serial y control de flujo, que si bien, es común su uso para depurar y permite gran parte de la funcionalidad de un depurador, no permite ver "en vivo" el contenido de los registros o la memoria, y tiene un comportamiento "conflictivo" si es que el programador pide paradas arbitrarias al programa desde el depurador. JTAG permite todo esto y más, dependiendo de lo que provea la red de Boundary Scan del CPU.
-
-Ya exportado la descripción de hardware a Vitis, debe cambiarse el objetivo de compilación de la aplicación a Debug.
-
-Puede encargarse desde Vitis que comience la depuración del programa con "Run". Esto descargará la aplicación a la tarjeta usando JTAG. Dicho esto, no se recomienta usar el objetivo debug para grabar el archivo en ROM SPI, debido a que podría ocupar más espacio, ejecutarse lentamente, y el depurador necesita configuración adicional para leer los símbolos desde otras fuentes.
-
-Puede verse lo usual de un depurador: Volcado de memoria, Lista de llamadas, Registros y línea actual de código fuente.
-
-Pueden también usarse comandos adicionales del depurador GDB versionado por Xilinx para efectuar acciones no disponibles desde la GUI o cargar scripts.
-
-* Depuración del sistema completo: Permite depurar, desde el punto de vista programático, ciertos grupos de senales del bus del sistema y de la lógica del tejido de FPGA. Para habilitarlo, debe estar configurado en Vivado el Zynq-PS la habilitación del cross triggering.
-![Flasheando Bitstream](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Screenshot_20200514_032817.png "Flasheando Bitstream")
-Puede habilitarse para uno o más nucleos del SOC Zynq.
-Al salir se podrá ver que el PS tiene lineas disponibles adicionales. ![Cross trigger](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Screenshot_20200514_035919.png "Cross trigger")
-
-Al Hacer click en el pop-up "Run Block Automation se agregran tantos System ILA como líneas se agregaron.
-A los ILA, deben conectarse las señales y sus relojes pertenecientes al dominio de reloj de la señal correspondiente
-Debe notarse que las señales que se van a vigilar, no deberían exceder el reloj local. De hacerlo podria inestabilizarse el circuito, o enviar informacion corrupta hacia el exterior.
-
 
 
 ## Depuración de Aplicaciones y Kernel Linux ##
