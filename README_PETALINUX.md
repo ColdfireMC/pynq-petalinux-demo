@@ -152,8 +152,42 @@ Para programas mas complejos y desarrollo de controladores y módulos de kernel 
 * Contar con el código fuente: el código fuente exacto debe estar disponible, para poder tener una lectura acertada. No se debe modificar el código desde el archivo mientras se depura. Hacerlo dejará inválidos los números de línea emitidos por los marcadores y la lectura del código será erronea. Para modificar el código debe evaluarse y ensamblarse la expresión, siempre y cuando no implique desplazar el código.
 * Interceptar la máquina en alguna excepción (esto es quizas lo más complejo, si se hace de manera manual), o detenerla en un punto arbitrario. En condiciones normales la máquina corre libremente. Al interceptarla, dependiendo del *handler* que se utilice, podría ser que alguna interrupción detuviera el código. Esto es verdadero en el kernel, pero en otros programas esto debe hacerse de manera manual.
 
-###Compilar en modo debug###
+### Compilar en modo debug ###
+
 
 *
+![Flasheando Bitstream](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-vitis-doc/Screenshot_20200611_034348.png "Flasheando Bitstream")
+
+
+![Flasheando Bitstream](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-vitis-doc/Screenshot_20200611_034513.png "Flasheando Bitstream")
+
+
+![Flasheando Bitstream](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-vitis-doc/Screenshot_20200611_034528.png "Flasheando Bitstream")
+
+![Flasheando Bitstream](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-vitis-doc/Screenshot_20200611_034550.png "Flasheando Bitstream")
+
+
+![Flasheando Bitstream](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-vitis-doc/Screenshot_20200611_034645.png "Flasheando Bitstream")
+
+
+![Flasheando Bitstream](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-vitis-doc/Screenshot_20200611_034727.png "Flasheando Bitstream")
+
+
+![Flasheando Bitstream](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-vitis-doc/Screenshot_20200611_035408.png "Flasheando Bitstream")
+
+
+
+![Flasheando Bitstream](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-vitis-doc/Screenshot_20200611_035420.png "Flasheando Bitstream")
+
+
+
+
+
+
+
+
+
+
+
 
 
