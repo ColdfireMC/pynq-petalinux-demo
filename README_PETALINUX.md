@@ -142,19 +142,48 @@ Finalmente, si la imagen Fue grabada exitosamente, después de cargar, un termin
 * A veces la placa fallará el *flasheo* si se comienza a flashear con JP1 en una posición que no sea JTAG. En ese caso, poner el jumper en la posicion JTAG antes de grabar, luego grabar y final apagar la tarjeta y volver a ponerlo en QSPI.
 * Las políticas de *Sleep* del cpu vienen de un modo predeterminado muy agresivo y el CPU al entrar en modo *Idle* sólo puede despertarse con una interrupción de timer interno o una excepción. En https://www.xilinx.com/support/answers/69143.html se describe un método para evitar este problema. 
 
+## Aplicaciones Linux ##
+
+El comando
+
+```bash
+$ petalinux-config -c rootfs
+```
+
+Abrirá una ventana de Kconfig que ofrecerá paquetes y grupos de aplicaciones que vendrán preinstaladas en la distribución de Petalinux
+
+![Kconfig para rootfs](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Screenshot_20200707_022319.png "Kconfig para rootfs")
+
+El menú "apps" lista un par de aplicaciones de ejemplo
+
+![Kconfig para rootfs](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Screenshot_20200707_022353.png "Kconfig para rootfs")
+
+Al crear una serie de aplicaciones propias, Kconfig las mostrará en el item "user packages" y puede habilitarse o desabilitarse la instalación de las mismas. dentro del mismo proyecto de Petalinux.
+
+
+Las aplicaciones serán almacenadas tras construir el proyecto en los archivos rootfs en <raíz del proyecto>/images/linux/. El uso de alguno de estos archivos dependerá de las opciones de empaquetado del proyecto que se utilicen con el comando `petalinux-package`
+
+
+
 ## Depuración de Aplicaciones y Kernel Linux ##
 
-Para programas mas complejos y desarrollo de controladores y módulos de kernel y hacer mediciones finas de rendimiento, podría ser necesario depurar a nivel de kernel. Esto en el mejor de los casos, entregará información de que línea del código de qué módulo se está evaluando y el estado de la máquina correspondiente. Esto también podría unirse al análisis lógico de la lógica programable si se instala el hardware y software (handlers e interrupciones) adecuados. Para depurar un sistema Linux, se requiere:
+Para programas mas complejos y desarrollo de controladores y módulos de kernel y hacer mediciones finas de rendimiento, podría ser necesario depurar a nivel de kernel. Esto, en el mejor de los casos, entregará información de que línea del código de qué módulo se está evaluando y el estado de la máquina correspondiente. Esto también podría unirse al análisis lógico de la lógica programable si se instala el hardware y software (handlers e interrupciones) adecuados. Para depurar un sistema Linux, se requiere:
 
 * Compilar el kernel y las aplicaciones en modo "Debug": Debe generarse información de depuración junto con el código. Esto permite al ejecutable proporcionar marcadores para identificar que línea del código se evalúa en este momento y las variables y símbolos del código
 
-![Flasheando Bitstream](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Screenshot_20200611_034550.png "Flasheando Bitstream")
+![Flasheando Bitstream](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/ "Flasheando Bitstream")
 
-* Des-optimizar el código: (Este paso es más importante de lo que parece) Pese a que el código haya sido compilado con información de depuración, las optimizaciones pueden distorsionar la correspondencia entre las líneas de código máquina, las líneas de ensamblador y las líneas de código fuente. Esto es particularmente intenso en máquinas RISC, como ARM, debido a que las acciones de cada una de las instrucciones distan mucho de la complejidad de las líneas del código. Súmesele a esto el hecho de que el ensamblador de ARM, cuenta con pseudo-opcodes. Además de todo esto, algunos compiladores tienen optimizaciones a nivel de alineación del código, por lo que algunas instrucciones son espaciadas con otras instrucciones y cambiadas de orden, de modo de aprovechar la caché, el procesamiento fuera de orden y la alineación de la decodificación. Para esto se ilustrarán diversas modificaciones para no solo hacer que sea posible depurar, sino que además el código sea "entendible por humanos", permitiendo depurar excepciones e interrupciones relacionadas con controladores y errores derivados de operaciones aritméticas (overflow, underflow, división por cero) y contar con una perspectiva razonable de que instrucción de máquina está siendo representada por el código. 
+* Des-optimizar el código: (Este paso es más importante de lo que parece) Pese a que el código haya sido compilado con información de depuración, las optimizaciones pueden distorsionar la correspondencia entre las líneas de código máquina, las líneas de ensamblador y las líneas de código fuente.
+Para estono basta solo hacer que sea posible depurar, sino que además el código sea "entendible por humanos", permitiendo depurar excepciones e interrupciones relacionadas con controladores y errores derivados de operaciones aritméticas (overflow, underflow, división por cero) y contar con una perspectiva razonable de que instrucción de máquina está siendo representada por el código. Para ello se debe activar la configuración "Kernel Hacking" ---> "Compile-time checks and compiler options" ---> "Generate Readeable Assembler Code".
 
+![Flasheando Bitstream](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Screenshot_20200708_022033.png "Flasheando Bitstream")
+
+Esto es particularmente intenso en máquinas RISC, como ARM, debido a que las acciones de cada una de las instrucciones distan mucho de la complejidad de las líneas del código. 
+Además, algunos compiladores tienen optimizaciones a nivel de alineación del código, por lo que algunas instrucciones son espaciadas con otras instrucciones y cambiadas de orden, de modo de aprovechar la caché, el procesamiento fuera de orden y la alineación de la decodificación. Petalinux solo tiene las opciones "Optimize for Size" and "Optimize for Performance" en "General Setup" ---> "Compiler optimization level" --->
 
 ![Flasheando Bitstream](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Screenshot_20200611_034348.png "Flasheando Bitstream")
 
+"Optimize for Performance" hará el código ser apenas entendible, y podría ser inconveniente para usarlo en flash SPI, por lo que se recomienda mientras se depura usar "Optimize for Size".
 
 * Activar diversos niveles de mensajes, según se requiera: Si se desea depurar servicios y protocolos dentro del kernel, activar mensajería podría ser necesario. Debe notarse que se requiere un enlace de comunicaciones adicional para este fin. Además, puede que sea necesario que el mismo cuente con líneas de control de flujo, cosa que tarjetas como PYNQ, en un giro inesperado del diseño, fue omitida.
 
