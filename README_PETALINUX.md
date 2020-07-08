@@ -181,25 +181,19 @@ Para estono basta solo hacer que sea posible depurar, sino que además el códig
 Esto es particularmente intenso en máquinas RISC, como ARM, debido a que las acciones de cada una de las instrucciones distan mucho de la complejidad de las líneas del código. 
 Además, algunos compiladores tienen optimizaciones a nivel de alineación del código, por lo que algunas instrucciones son espaciadas con otras instrucciones y cambiadas de orden, de modo de aprovechar la caché, el procesamiento fuera de orden y la alineación de la decodificación. Petalinux solo tiene las opciones "Optimize for Size" and "Optimize for Performance" en "General Setup" ---> "Compiler optimization level" --->
 
-![Flasheando Bitstream](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Screenshot_20200611_034348.png "Flasheando Bitstream")
+![Optimización](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Screenshot_20200708_033841.png "Optimización")
 
 "Optimize for Performance" hará el código ser apenas entendible, y podría ser inconveniente para usarlo en flash SPI, por lo que se recomienda mientras se depura usar "Optimize for Size".
 
-* Activar diversos niveles de mensajes, según se requiera: Si se desea depurar servicios y protocolos dentro del kernel, activar mensajería podría ser necesario. Debe notarse que se requiere un enlace de comunicaciones adicional para este fin. Además, puede que sea necesario que el mismo cuente con líneas de control de flujo, cosa que tarjetas como PYNQ, en un giro inesperado del diseño, fue omitida, por lo que tales mensajes solo podrían ser obtenidos con control de flujo por software, o usando un enlace de red Ethernet
+* Activar diversos niveles de mensajes, según se requiera: Si se desea depurar servicios y protocolos dentro del kernel, activar mensajería podría ser necesario. Debe notarse que se requiere un enlace de comunicaciones adicional para este fin. Además, puede que sea necesario que el mismo cuente con líneas de control de flujo, cosa que tarjetas como PYNQ, en un giro inesperado del diseño, fue omitida, por lo que tales mensajes solo podrían ser obtenidos con control de flujo por software, o usando un enlace de red Ethernet.
 
-"Kernel Hacking" ---> "Compile-time checks and compiler options" ---> "Generate Readeable Assembler Code".
+Para acceder
 
+"Kernel Hacking" ---> "Kernel low-level debugging functions" 
+![Habilitando funciones de depuración de bajo nivel](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Screenshot_20200707_021656.png "Habilitando funciones de depuración de bajo nivel")
 
-"Optimize for Size" and "Optimize for Performance" en "General Setup" ---> "Compiler optimization level" --->
-
-![Habilitando funciones de depuración de bajo nivel](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Screenshot_20200611_034645.png "Habilitando funciones de depuración de bajo nivel")
-
-
-
-"Optimize for Size" and "Optimize for Performance" en "General Setup" ---> "Compiler optimization level" --->
-
-![Scripts de Apoyo para el depurador](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Screenshot_20200611_034513.png "Scripts de Apoyo para el depurador")
-
+"Kernel Hacking" ---> "Compile-time checks and compiler options" ---> "Provide GDB Scripts for GDB debugging".
+![Scripts de Apoyo para el depurador](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Screenshot_20200708_010942.png "Scripts de Apoyo para el depurador")
 
 * Contar con el código fuente: el código fuente exacto debe estar disponible, para poder tener una lectura acertada. No se debe modificar el código desde el archivo mientras se depura. Hacerlo dejará inválidos los números de línea emitidos por los marcadores y la lectura del código será erronea. Para modificar el código debe evaluarse y ensamblarse la expresión, siempre y cuando no implique desplazar el código.
 
