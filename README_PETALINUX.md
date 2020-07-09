@@ -133,6 +133,51 @@ Una vez especificado el FSBL, presionar <kbd>Program</kbd>
 Finalmente, si la imagen Fue grabada exitosamente, después de cargar, un terminal serial debería mostrar el "login" de la distribución petalinux que se ha construido
 ![Flasheando Bitstream](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-vitis-doc/Screenshot_20200505_044035.png "Flasheando Bitstream")
 
+## Otras Maneras de Ejecutar Petalinux ##
+
+### Carga directa con Serial/JTAG ###
+
+Es posible cargar directo a la memoria algunas o todas las etapas del arranque directamente desde la máquina de desarrollo usando JTAG. Para  esto, la imagen debe estar compilada y empaquetada previamente, en modo *prebuilt* (paso previo a construir un BSP)
+```bash
+$ petalinux-package --prebuilt
+```
+Esto creará el directorio "prebuilt" dentro del proyecto.
+Debido a un bug, el comando anterior, no renombra el *bitstream* del FPGA a "download.bit". Esto causa que a la hora de arrancar no encuentre el bitstream y la tarjeta quede en modo FSBL. Asegurarse que en la carpeta "prebuilt/implementation", haya una copia del bitstream, pero con nombre "download.bit", que se encuentra en "prebuilt/images" con el nombre de "system.bit". Luego puede arrancarse el sistema con el siguiente comando:
+
+```bash
+$ petalinux-boot --jtag --prebuilt <nivel>
+```
+Donde nivel indica si se quiere arrancar el FSBL (1), el bootloader (2) y linux (3, kernel y userland).
+Este comando tiene numerosas opciones para especificar porciones diferentes del firmware y bitstream. Para más detalles, leer el capítulo 5 de [ug1144](https://www.xilinx.com/support/documentation/sw_manuals/xilinx2020_1/ug1144-petalinux-tools-reference-guide.pdf)
+
+El enlace JTAG tardará unos 2 minutos en cargar la memoria de la tarjeta en el caso de Linux. El proceso tiene la siguiente apariencia
+
+
+
+Nótese que el enlace no redirecciona al dispositivo de terminal una vez que la tarjeta tiene el enlace serial disponible. Debe hacerse manualmente con Minicom, Picocom o Teraterm, o configurando uno de los terminales enlazado a tal dispositivo (aunque esto no se recomienda si no es un enlace permanente).
+
+
+
+Linux debería verse del siguiente modo si ha cargado correctamente. Nótese que funciona en modo tmpfs si es que no se ha insertado una tarjeta SD que contenga un Filesystem.
+
+
+
+### Emulando con QEMU ###
+
+De un modo similar a JTAG, es posible cargar directo a la memoria algunas o todas las etapas del arranque directamente desde la máquina de desarrollo usando la línea de comandos.  Esto podría servir para desarrollo rápido y "co-simular" con Vitis o Vivado. Esta última característica es experimental, pero es prometedora ya que permitiría simular diseños completos (RTL+Software).
+
+```bash
+$ petalinux-boot --qemu --prebuilt <nivel>
+```
+
+"Nivel" tiene el mismo significado que para JTAG. En este caso, QEMU toma el control total del terminal y solo puede ser terminado con <kbd>Ctrl</kbd><kbd>A</kbd><kbd>X</kbd>. Al ejecutarse, debería tomar la siguiente apariencia. 
+
+
+
+QEMU aún no puede emular todos los IP de Xilinx. Una lista exahustiva del soporte está disponible en [ug1169](https://www.xilinx.com/support/documentation/sw_manuals/xilinx2020_1/ug1169-xilinx-qemu.pdf)
+
+
+
 
 ## Problemas Conocidos ##
 
@@ -162,6 +207,10 @@ Al crear una serie de aplicaciones propias, Kconfig las mostrará en el item "us
 
 
 Las aplicaciones serán almacenadas tras construir el proyecto en los archivos rootfs en <raíz del proyecto>/images/linux/. El uso de alguno de estos archivos dependerá de las opciones de empaquetado del proyecto que se utilicen con el comando `petalinux-package`
+
+
+
+
 
 
 
@@ -200,19 +249,7 @@ Para acceder
 
 * Interceptar la máquina en alguna excepción (esto es quizas lo más complejo, si se hace de manera manual), o detenerla en un punto arbitrario. En condiciones normales la máquina corre libremente. Al interceptarla, dependiendo del *handler* que se utilice, podría ser que alguna interrupción detuviera el código. Esto es verdadero en el kernel, pero en otros programas esto debe hacerse de manera manual.
 
-### Compilar en modo debug ###
-
-
-
-![Flasheando Bitstream](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Screenshot_20200611_034528.png "Flasheando Bitstream")
-
-![Flasheando Bitstream](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Screenshot_20200611_034550.png "Flasheando Bitstream")
-
-![Flasheando Bitstream](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Screenshot_20200611_035408.png "Flasheando Bitstream")
-
-![Flasheando Bitstream](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Screenshot_20200611_035420.png "Flasheando Bitstream")
-
-
+## Uso de QEMU ##
 
 
 
