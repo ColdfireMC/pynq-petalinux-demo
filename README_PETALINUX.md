@@ -170,7 +170,6 @@ De un modo similar a JTAG, es posible cargar directo a la memoria algunas o toda
 ```bash
 $ petalinux-boot --qemu --prebuilt <nivel>
 ```
-
 "Nivel" tiene el mismo significado que para JTAG. En este caso, QEMU toma el control total del terminal y solo puede ser terminado con <kbd>Ctrl</kbd><kbd>A</kbd><kbd>X</kbd>. Al ejecutarse, debería tomar la siguiente apariencia. 
 QEMU aún no puede emular todos los IP de Xilinx. Una lista exahustiva del soporte está disponible en [ug1169](https://www.xilinx.com/support/documentation/sw_manuals/xilinx2020_1/ug1169-xilinx-qemu.pdf)
 
@@ -239,9 +238,6 @@ Para acceder
 
 
 * Interceptar la máquina en alguna excepción (esto es quizas lo más complejo, si se hace de manera manual), o detenerla en un punto arbitrario. En condiciones normales la máquina corre libremente. Al interceptarla, dependiendo del *handler* que se utilice, podría ser que alguna interrupción detuviera el código. Esto es verdadero en el kernel, pero en otros programas esto debe hacerse de manera manual.
-
-## Uso de QEMU ##
-
 
 
 
