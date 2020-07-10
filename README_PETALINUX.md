@@ -152,14 +152,15 @@ Este comando tiene numerosas opciones para especificar porciones diferentes del 
 
 El enlace JTAG tardará unos 2 minutos en cargar la memoria de la tarjeta en el caso de Linux. El proceso tiene la siguiente apariencia
 
-
+![Jtag cargando](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-vitis-doc/Screenshot_20200709_172907.png "Jtag Cargando")
 
 Nótese que el enlace no redirecciona al dispositivo de terminal una vez que la tarjeta tiene el enlace serial disponible. Debe hacerse manualmente con Minicom, Picocom o Teraterm, o configurando uno de los terminales enlazado a tal dispositivo (aunque esto no se recomienda si no es un enlace permanente).
 
+![Terminal](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-vitis-doc/Screenshot_20200709_173244.png "Terminal")
 
+Linux debería verse del siguiente modo si ha cargado correctamente. Nótese que funciona en modo tmpfs si es que no se ha insertado una tarjeta SD que contenga un Filesystem, por lo que si se escribe algo, se perderá al apagar la máquina.
 
-Linux debería verse del siguiente modo si ha cargado correctamente. Nótese que funciona en modo tmpfs si es que no se ha insertado una tarjeta SD que contenga un Filesystem.
-
+![Linux login](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-vitis-doc/Screenshot_20200709_173315.png "Linux Login")
 
 
 ### Emulando con QEMU ###
@@ -171,12 +172,7 @@ $ petalinux-boot --qemu --prebuilt <nivel>
 ```
 
 "Nivel" tiene el mismo significado que para JTAG. En este caso, QEMU toma el control total del terminal y solo puede ser terminado con <kbd>Ctrl</kbd><kbd>A</kbd><kbd>X</kbd>. Al ejecutarse, debería tomar la siguiente apariencia. 
-
-
-
 QEMU aún no puede emular todos los IP de Xilinx. Una lista exahustiva del soporte está disponible en [ug1169](https://www.xilinx.com/support/documentation/sw_manuals/xilinx2020_1/ug1169-xilinx-qemu.pdf)
-
-
 
 
 ## Problemas Conocidos ##
@@ -207,11 +203,6 @@ Al crear una serie de aplicaciones propias, Kconfig las mostrará en el item "us
 
 
 Las aplicaciones serán almacenadas tras construir el proyecto en los archivos rootfs en <raíz del proyecto>/images/linux/. El uso de alguno de estos archivos dependerá de las opciones de empaquetado del proyecto que se utilicen con el comando `petalinux-package`
-
-
-
-
-
 
 
 ## Depuración de Aplicaciones y Kernel Linux ##
