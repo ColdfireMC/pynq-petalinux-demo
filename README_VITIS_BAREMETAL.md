@@ -85,7 +85,7 @@ Puede verse lo usual de un depurador: Volcado de memoria, Lista de llamadas, Reg
 
 ![Flasheando Bitstream](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-vitis-doc/Screenshot_20200623_223905.png "Flasheando Bitstream")
 
-Pueden también usarse comandos adicionales del depurador GDB versionado por Xilinx para efectuar acciones no disponibles desde la GUI o cargar scripts.
+Pueden también usarse comandos adicionales del depurador GDB versionado por Xilinx (XSDB) para efectuar acciones no disponibles desde la GUI o cargar scripts. Existe la posibilidad de redireccionar el terminal hacia las ventanas de terminal de Xilinx vitis
 
 * Depuración del sistema completo: Permite depurar, desde el punto de vista programático, ciertos grupos de senales del bus del sistema y de la lógica del tejido de FPGA. Para habilitarlo, debe estar configurado en Vivado el Zynq-PS la habilitación del cross triggering.
 ![Flasheando Bitstream](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Screenshot_20200514_032817.png "Flasheando Bitstream")
