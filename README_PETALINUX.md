@@ -227,7 +227,19 @@ Es posible depurar un proyecto petalinux con Xilinx Vitis corriendo en una máqu
 ```bash
 $ petalinux-config -c rootfs
 ```
-Luego debe seleccionarse "misc"---
+Luego debe seleccionarse "filesystem packages"--->"misc"--->"tcf-agent"
+
+![Scripts de Apoyo para el depurador](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Screenshot_20200611_035420.png "Scripts de Apoyo para el depurador").
+
+
+```bash
+$ petalinux-build
+```
+
+
+```bash
+$ petalinux-package --sysroot
+```
 
 
 
