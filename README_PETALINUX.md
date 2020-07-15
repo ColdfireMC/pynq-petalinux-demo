@@ -152,15 +152,15 @@ Este comando tiene numerosas opciones para especificar porciones diferentes del 
 
 El enlace JTAG tardará unos 2 minutos en cargar la memoria de la tarjeta en el caso de Linux. El proceso tiene la siguiente apariencia
 
-![Jtag cargando](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-vitis-doc/Screenshot_20200709_172907.png "Jtag Cargando")
+![Jtag cargando](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Screenshot_20200709_172907.png "Jtag Cargando")
 
 Nótese que el enlace no redirecciona al dispositivo de terminal una vez que la tarjeta tiene el enlace serial disponible. Debe hacerse manualmente con Minicom, Picocom o Teraterm, o configurando uno de los terminales enlazado a tal dispositivo (aunque esto no se recomienda si no es un enlace permanente).
 
-![Terminal](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-vitis-doc/Screenshot_20200709_173244.png "Terminal")
+![Terminal](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Screenshot_20200709_173244.png "Terminal")
 
 Linux debería verse del siguiente modo si ha cargado correctamente. Nótese que funciona en modo tmpfs si es que no se ha insertado una tarjeta SD que contenga un Filesystem, por lo que si se escribe algo, se perderá al apagar la máquina.
 
-![Linux login](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-vitis-doc/Screenshot_20200709_173315.png "Linux Login")
+![Linux login](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Screenshot_20200709_173315.png "Linux Login")
 
 
 ### Emulando con QEMU ###
