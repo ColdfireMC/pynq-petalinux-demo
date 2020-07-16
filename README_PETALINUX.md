@@ -208,7 +208,7 @@ Las aplicaciones serán almacenadas tras construir el proyecto en los archivos r
 
 Para programas mas complejos y desarrollo de controladores y módulos de kernel y hacer mediciones finas de rendimiento, podría ser necesario depurar a nivel de kernel. Esto, en el mejor de los casos, entregará información de que línea del código de qué módulo se está evaluando y el estado de la máquina correspondiente. Esto también podría unirse al análisis lógico de la lógica programable si se instala el hardware y software (handlers e interrupciones) adecuados. Para depurar un sistema Linux, se requiere:
 
-* Compilar el kernel y las aplicaciones en modo "Debug": Debe generarse información de depuración junto con el código. Esto permite al ejecutable proporcionar marcadores para identificar que línea del código se evalúa en este momento y las variables y símbolos del código "Kernel Hacking" ---> "Compile-time checks and compiler options" ---> "Generate Debug Information".![Agregando Información de depuración](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Screenshot_20200708_022033.png "Agregando Información de depuración")
+* Compilar el kernel y las aplicaciones en modo "Debug": Debe generarse información de depuración junto con el código. Esto permite al ejecutable proporcionar marcadores para identificar que línea del código se evalúa en este momento y las variables y símbolos del código "Kernel Hacking" ---> "Compile-time checks and compiler options" ---> "Generate Debug Information".![Agregando Información de depuración](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Captura de pantalla_2020-07-14_20-00-23.png "Agregando Información de depuración")
 
 * Des-optimizar el código: (Este paso es más importante de lo que parece) Pese a que el código haya sido compilado con información de depuración, las optimizaciones pueden distorsionar la correspondencia entre las líneas de código máquina, las líneas de ensamblador y las líneas de código fuente.
 Para estono basta solo hacer que sea posible depurar, sino que además el código sea "entendible por humanos", permitiendo depurar excepciones e interrupciones relacionadas con controladores y errores derivados de operaciones aritméticas (overflow, underflow, división por cero) y contar con una perspectiva razonable de que instrucción de máquina está siendo representada por el código. Para ello se debe activar la configuración "Kernel Hacking" ---> "Compile-time checks and compiler options" ---> "Generate Readeable Assembler Code".![Generar Código Máquina Legible](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Screenshot_20200708_022033.png "Generar Código Máquina Legible")Esto es particularmente intenso en máquinas RISC, como ARM, debido a que las acciones de cada una de las instrucciones distan mucho de la complejidad de las líneas del código. Además, algunos compiladores tienen optimizaciones a nivel de alineación del código, por lo que algunas instrucciones son espaciadas con otras instrucciones y cambiadas de orden, de modo de aprovechar la caché, el procesamiento fuera de orden y la alineación de la decodificación. Petalinux solo tiene las opciones "Optimize for Size" and "Optimize for Performance" en "General Setup" ---> "Compiler optimization level" --->![Optimización](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Screenshot_20200708_033841.png "Optimización")"Optimize for Performance" hará el código ser apenas entendible, y podría ser inconveniente para usarlo en flash SPI, por lo que se recomienda mientras se depura usar "Optimize for Size".
@@ -231,15 +231,149 @@ Luego debe seleccionarse "filesystem packages"--->"misc"--->"tcf-agent"
 
 ![Scripts de Apoyo para el depurador](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Screenshot_20200611_035420.png "Scripts de Apoyo para el depurador").
 
-
+Luego debe guardarse la configuración y ejecutar el comando:
 ```bash
 $ petalinux-build
 ```
-
-
+Para que Vitis pueda encontrar las rutas adecuadas, debe construirse el componente SDK de petalinux. Esto se puede lograr con el siguiente comando
 ```bash
-$ petalinux-package --sysroot
+$ petalinux-build -c sdk
 ```
+Esto tomará unos 20 minutos. Tras terminar, debe empacarse el ejecutable y el bitstream.
+Por ejemplo, si se desea arrancar por TFTP o JTAG, puede usarse
+```bash
+$ petalinux-package --prebuilt
+```
+Recordar que se debe copiar system.bit (de la carpeta prebuilt) y copiarlo renombrado a download.bit en prebuilt/implementation.
+Contraintuitivamente, para poder depurar Linux en Xilinx Vitis, debe crearse una aplicación para linux dentro del mismo
+
+
+Se debe seleccionar el dominio de sistema correcto. El sistema debe cumplir con los requisitos mínimos de Linux (MMU, timer y suficiente RAM)
+
+
+
+Pueden especificarse las rutas del sdk (sysroot) y los componentes de linux (RootFS, kernel).
+
+
+Debe seleccionarse algún template. No es obligatorio ninguno en particular
+
+
+Ya en el entorno principal de Xilinx Vitis debe construirse la aplicación
+
+
+Luego debe crearse un objetivo de depuración de aplicación Linux, seleccionando "nuevo" en la ventana de objetivos de depuración
+
+
+Debe seleccionarse en "Debug Type" "Attach to running Target"
+
+
+
+
+Debe crearse una conexión presionando <kbd>New</kbd>
+
+
+![Scripts de Apoyo para el depurador](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Captura de pantalla_2020-07-16_00-56-30.png "Scripts de Apoyo para el depurador").
+
+Debe especificarse el puerto y la dirección. Si se hace depuración remota por ethernet, el puerto 1531 es el adecuado, junto con la dirección IP del objetivo. Si se hace usando un cable JTAG, debe conectarse a un "Xilinx Hardware Server" activo. en ese caso la IP es localhost, o 127.0.0.1 y el puerto 3121. Si es en QEMU, la IP es localhost, pero el puerto es 9000.
+Puede probarse la conexión con <kbd>Test Connection</kbd>
+
+
+
+Si aparece la siguiente ventana, la conexión está configurada correctamente. No iniciar la sesión de depuración aún.
+Las otras pestañas permiten especificar, creado ya un contexto, variables, entorno, símbolos de depuración y código fuente.
+
+
+
+
+
+En este momento, es tiempo de iniciar el objetivo de depuración, del mismo modo que se puede hacer con carga directa o jtag. También podría cargarse una SD con los datos y reiniciar la tarjeta de desarrollo
+```bash
+$ petalinux-boot --jtag --prebuilt 3
+```
+Esto tomará unos 5 minutos, o más, dependiendo de las aplicaciones y opciones especificadas. Si la luz verde de estado del bitstream cambia a verde, el bitstream fue correctamente cargado
+
+
+Con el bitstream cargado puede conectarse al objetivo con <kbd>Debug</kbd>. Cambiando el layout a "Debug" puede verse la ventana de depuración de Vitis.
+
+
+
+De modo predeterminado, las aplicaciones vienen con breakpoints en `init` y `main`, pueden eliminarse.
+
+
+Si no se especificó símbolos o código fuente, el depurador queda en modo de Desensamblado. El código en este caso puede obtenerse si se pausa uno o ambos CPU.
+
+
+
+Para depurar el kernel, debe haberse compilado con símbolos de depuración. Estos deben cargarse a uno de los CPU
+
+Captura de pantalla_2020-07-15_22-31-25.png
+
+En esta ventana debe especificarse la ruta donde se encuentra la imagen del kernel "vmlinux"
+
+
+Captura de pantalla_2020-07-15_22-31-33.png
+
+
+
+Captura de pantalla_2020-07-15_22-31-41.png
+
+
+
+
+Debe establecerse permisos y atributos que se necesite a la imagen. OS aware debugging permite acceder a cada tarea o módulo que se desee. Se recomienda activarlo en caso de necesitar depurar la interacción de una aplicación con un controlador (Activado en este caso para explorar la funcionalidad).
+
+
+Captura de pantalla_2020-07-15_22-32-25.png
+
+
+Al insertar los símbolos, la máquina se pausa y entra al procesimiento "Idle" que se ejecuta cuando la máquina está libre.
+
+
+
+Notar que se cargó automáticamente el código fuente, ya que esta información está incorporada en el ejecutable, debido a que se seleccionó compilar con símbolos de depuración. 
+
+
+Nótese que si se detiene la ejecución del kernel o uno de sus módulos, el sistema no puede decodificar las direcciones de las tareas, así que no es posible "encontrar" código de esta manera.
+
+Captura de pantalla_2020-07-15_23-01-24.png
+
+
+
+La manera correcta de depurar el kernel es instalando un breakpoint en alguna función del módulo que interese. El código fuente se encuentra en `<base del proyecto petalinux>/components/yocto/workspace/sources/linux-xlnx/`.
+
+Captura de pantalla_2020-07-15_23-33-45.png
+
+Con "File"--->"Open File" debe seleccionarse un archivo de código fuente. Haciendo doble clic en una de las líneas, se agrega un breakpoint
+
+
+Captura de pantalla_2020-07-15_23-36-45.png
+Si se espera algunos instantes, a que el kernel invoque la función, la máquina se detendrá en el breakpoint y mostrará acceso a los registros del CPU y a la cadena JTAG.
+
+Captura de pantalla_2020-07-15_23-39-57.png
+
+También pueden verse las variables involucradas en la operación.
+
+
+Puede "seguirse" las cabeceras y los archivos involucrados si se presiona <kbd>Ctrl</kbd> y se hace clic en las lineas "include"
+
+
+También es posible vigilar cada una de las tareas o daemon del sistema y depurarlas. Para ello debe hacerse clic derecho sobre alguna de las aplicaciones y pausarla.
+
+Captura de pantalla_2020-07-15_22-34-47.png
+
+
+Nótese que si no aparece código fuente, se entra al modo desensamblado. Esto ocurre si no se especifica que las aplicaciones de rootfs incluyan su versión depurable.
+
+
+
+Una de las funcionalidades del backend del depurador permite identificar de que módulos la aplicación o el daemon es dependiente. Puede usar estos para cargar los símbolos o el código fuente, o bien usar el nombre para volver a configurar el RootFS de petalinux.
+
+Captura de pantalla_2020-07-15_22-36-16.png
+
+Los archivos faltantes aparecen en rojo.
+
+Pueden agregarse o cambiarse las rutas del código fuente
+
 
 
 
