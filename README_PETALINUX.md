@@ -320,8 +320,7 @@ En esta ventana debe especificarse la ruta donde se encuentra la imagen del kern
 
 
 
-![Scripts de Apoyo para el depurador](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Captura de pantalla_2020-07-15_22-31-41.png
- "Scripts de Apoyo para el depurador").
+![Scripts de Apoyo para el depurador](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Captura de pantalla_2020-07-15_22-31-41.png  "Scripts de Apoyo para el depurador").
 
 
 
@@ -332,8 +331,7 @@ En esta ventana debe especificarse la ruta donde se encuentra la imagen del kern
 Debe establecerse permisos y atributos que se necesite a la imagen. OS aware debugging permite acceder a cada tarea o módulo que se desee. Se recomienda activarlo en caso de necesitar depurar la interacción de una aplicación con un controlador (Activado en este caso para explorar la funcionalidad).
 
 
-![Scripts de Apoyo para el depurador](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Captura de pantalla_2020-07-15_22-32-25.png
- "Scripts de Apoyo para el depurador").
+![Scripts de Apoyo para el depurador](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Captura de pantalla_2020-07-15_22-32-25.png "Scripts de Apoyo para el depurador").
 
 
 Al insertar los símbolos, la máquina se pausa y entra al procesimiento "Idle" que se ejecuta cuando la máquina está libre.
@@ -345,8 +343,7 @@ Notar que se cargó automáticamente el código fuente, ya que esta información
 
 Nótese que si se detiene la ejecución del kernel o uno de sus módulos, el sistema no puede decodificar las direcciones de las tareas, así que no es posible "encontrar" código de esta manera.
 
-![Scripts de Apoyo para el depurador](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Captura de pantalla_2020-07-15_23-01-24.png
- "Scripts de Apoyo para el depurador").
+![Scripts de Apoyo para el depurador](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Captura de pantalla_2020-07-15_23-01-24.png "Scripts de Apoyo para el depurador").
 
 
 
