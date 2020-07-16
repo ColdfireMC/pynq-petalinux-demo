@@ -272,7 +272,7 @@ Debe seleccionarse en "Debug Type" "Attach to running Target"
 Debe crearse una conexión presionando <kbd>New</kbd>
 
 
-![Scripts de Apoyo para el depurador](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Captura de pantalla_2020-07-16_00-56-30.png "Scripts de Apoyo para el depurador").
+![Scripts de Apoyo para el depurador](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Captura%20de%20pantalla_2020-07-16_00-56-30.png "Scripts de Apoyo para el depurador").
 
 Debe especificarse el puerto y la dirección. Si se hace depuración remota por ethernet, el puerto 1531 es el adecuado, junto con la dirección IP del objetivo. Si se hace usando un cable JTAG, debe conectarse a un "Xilinx Hardware Server" activo. en ese caso la IP es localhost, o 127.0.0.1 y el puerto 3121. Si es en QEMU, la IP es localhost, pero el puerto es 9000.
 Puede probarse la conexión con <kbd>Test Connection</kbd>
@@ -308,19 +308,17 @@ Para depurar el kernel, debe haberse compilado con símbolos de depuración. Est
 
 
 
-![Scripts de Apoyo para el depurador](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Captura de pantalla_2020-07-15_22-31-25.png
- "Scripts de Apoyo para el depurador").
+![Scripts de Apoyo para el depurador](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Captura%20de%20pantalla_2020-07-15_22-31-25.png "Scripts de Apoyo para el depurador").
 
 En esta ventana debe especificarse la ruta donde se encuentra la imagen del kernel "vmlinux"
 
 
 
-![Scripts de Apoyo para el depurador](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Captura de pantalla_2020-07-15_22-31-33.png
- "Scripts de Apoyo para el depurador").
+![Scripts de Apoyo para el depurador](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Captura%20de%20pantalla_2020-07-15_22-31-33.png "Scripts de Apoyo para el depurador").
 
 
 
-![Scripts de Apoyo para el depurador](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Captura de pantalla_2020-07-15_22-31-41.png  "Scripts de Apoyo para el depurador").
+![Scripts de Apoyo para el depurador](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Captura%20de%20pantalla_2020-07-15_22-31-41.png  "Scripts de Apoyo para el depurador").
 
 
 
@@ -331,7 +329,7 @@ En esta ventana debe especificarse la ruta donde se encuentra la imagen del kern
 Debe establecerse permisos y atributos que se necesite a la imagen. OS aware debugging permite acceder a cada tarea o módulo que se desee. Se recomienda activarlo en caso de necesitar depurar la interacción de una aplicación con un controlador (Activado en este caso para explorar la funcionalidad).
 
 
-![Scripts de Apoyo para el depurador](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Captura de pantalla_2020-07-15_22-32-25.png "Scripts de Apoyo para el depurador").
+![Scripts de Apoyo para el depurador](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Captura%20de%20pantalla_2020-07-15_22-32-25.png "Scripts de Apoyo para el depurador").
 
 
 Al insertar los símbolos, la máquina se pausa y entra al procesimiento "Idle" que se ejecuta cuando la máquina está libre.
@@ -343,7 +341,7 @@ Notar que se cargó automáticamente el código fuente, ya que esta información
 
 Nótese que si se detiene la ejecución del kernel o uno de sus módulos, el sistema no puede decodificar las direcciones de las tareas, así que no es posible "encontrar" código de esta manera.
 
-![Scripts de Apoyo para el depurador](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Captura de pantalla_2020-07-15_23-01-24.png "Scripts de Apoyo para el depurador").
+![Scripts de Apoyo para el depurador](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Captura%20de%20pantalla_2020-07-15_23-01-24.png "Scripts de Apoyo para el depurador").
 
 
 
@@ -351,7 +349,7 @@ Nótese que si se detiene la ejecución del kernel o uno de sus módulos, el sis
 
 La manera correcta de depurar el kernel es instalando un breakpoint en alguna función del módulo que interese. El código fuente se encuentra en `<base del proyecto petalinux>/components/yocto/workspace/sources/linux-xlnx/`.
 
-![Scripts de Apoyo para el depurador](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Captura de pantalla_2020-07-15_23-33-45.png "Scripts de Apoyo para el depurador").
+![Scripts de Apoyo para el depurador](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Captura%20de%20pantalla_2020-07-15_23-33-45.png "Scripts de Apoyo para el depurador").
 
 
 Con "File"--->"Open File" debe seleccionarse un archivo de código fuente. Haciendo doble clic en una de las líneas, se agrega un breakpoint
@@ -359,7 +357,7 @@ Con "File"--->"Open File" debe seleccionarse un archivo de código fuente. Hacie
 
 Captura de pantalla_2020-07-15_23-36-45.png
 Si se espera algunos instantes, a que el kernel invoque la función, la máquina se detendrá en el breakpoint y mostrará acceso a los registros del CPU y a la cadena JTAG.
-![Scripts de Apoyo para el depurador](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Captura de pantalla_2020-07-15_23-39-57.png "Scripts de Apoyo para el depurador").
+![Scripts de Apoyo para el depurador](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Captura%20de%20pantalla_2020-07-15_23-39-57.png "Scripts de Apoyo para el depurador").
 
 
 También pueden verse las variables involucradas en la operación.
@@ -370,21 +368,21 @@ Puede "seguirse" las cabeceras y los archivos involucrados si se presiona <kbd>C
 
 También es posible vigilar cada una de las tareas o daemon del sistema y depurarlas. Para ello debe hacerse clic derecho sobre alguna de las aplicaciones y pausarla.
 
-![Scripts de Apoyo para el depurador](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Captura de pantalla_2020-07-15_22-34-47.png "Scripts de Apoyo para el depurador").
+![Scripts de Apoyo para el depurador](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Captura%20de%20pantalla_2020-07-15_22-34-47.png "Scripts de Apoyo para el depurador").
 
 Nótese que si no aparece código fuente, se entra al modo desensamblado. Esto ocurre si no se especifica que las aplicaciones de rootfs incluyan su versión depurable.
 
-![Scripts de Apoyo para el depurador](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Captura de pantalla_2020-07-15_22-50-29.png "Scripts de Apoyo para el depurador").
+![Scripts de Apoyo para el depurador](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Captura%20de%20pantalla_2020-07-15_22-50-29.png "Scripts de Apoyo para el depurador").
 
 Una de las funcionalidades del backend del depurador permite identificar de que módulos la aplicación o el daemon es dependiente. Puede usar estos para cargar los símbolos o el código fuente, o bien usar el nombre para volver a configurar el RootFS de Petalinux.
 
-![Scripts de Apoyo para el depurador](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Captura de pantalla_2020-07-15_22-36-16.png "Scripts de Apoyo para el depurador").
+![Scripts de Apoyo para el depurador](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Captura%20de%20pantalla_2020-07-15_22-36-16.png "Scripts de Apoyo para el depurador").
 
 Los archivos faltantes aparecen en rojo.
 
 Pueden agregarse o cambiarse las rutas del código fuente, en la pestaña "Source" del editor de configuración de depuración.
 
-![Scripts de Apoyo para el depurador](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Captura de pantalla_2020-07-15_22-45-20.png "Scripts de Apoyo para el depurador").
+![Scripts de Apoyo para el depurador](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Captura%20de%20pantalla_2020-07-15_22-45-20.png "Scripts de Apoyo para el depurador").
 
 
 Si al cargar símbolos o código fuente, no se encuentra la sección del módulo que está siendo depurado, aparecerá el siguiente mensaje en la ventana de código.
