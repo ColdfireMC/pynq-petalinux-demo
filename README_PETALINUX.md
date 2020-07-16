@@ -384,12 +384,12 @@ Los archivos faltantes aparecen en rojo.
 
 Pueden agregarse o cambiarse las rutas del código fuente, en la pestaña "Source" del editor de configuración de depuración.
 
-![Scripts de Apoyo para el depurador]('https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Captura de pantalla_2020-07-15_22-45-20.png' "Scripts de Apoyo para el depurador").
+![Scripts de Apoyo para el depurador](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Captura de pantalla_2020-07-15_22-45-20.png "Scripts de Apoyo para el depurador").
 
 
 Si al cargar símbolos o código fuente, no se encuentra la sección del módulo que está siendo depurado, aparecerá el siguiente mensaje en la ventana de código.
 
-![Scripts de Apoyo para el depurador](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/'pynq-petalinux-doc/Captura de pantalla_2020-07-15_22-48-52.png' "Scripts de Apoyo para el depurador").
+![Scripts de Apoyo para el depurador](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Captura%20de%20pantalla_2020-07-15_22-48-52.png "Scripts de Apoyo para el depurador").
 
 
 "Disconnect" termina la sesión de depuración y libera al dispositivo. Evitar apagar el dispositivo sin terminar la sesión, ya que esto dejaría bloqueado el depurador y posiblemente Vitis completo
