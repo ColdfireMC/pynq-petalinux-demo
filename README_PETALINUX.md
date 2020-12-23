@@ -354,8 +354,8 @@ La manera correcta de depurar el kernel es instalando un breakpoint en alguna fu
 
 Con "File"--->"Open File" debe seleccionarse un archivo de código fuente. Haciendo doble clic en una de las líneas, se agrega un breakpoint
 
+![Scripts de Apoyo para el depurador](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Captura%20de%20pantalla_2020-07-15_23-36-45.png "Scripts de Apoyo para el depurador").
 
-Captura de pantalla_2020-07-15_23-36-45.png
 Si se espera algunos instantes, a que el kernel invoque la función, la máquina se detendrá en el breakpoint y mostrará acceso a los registros del CPU y a la cadena JTAG.
 ![Scripts de Apoyo para el depurador](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Captura%20de%20pantalla_2020-07-15_23-39-57.png "Scripts de Apoyo para el depurador").
 
