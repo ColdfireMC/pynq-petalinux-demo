@@ -50,7 +50,7 @@ Cerrar la ventana con <kbd>OK</kbd>
   Pueden configurarse las caracteristicas de la BRAM, como la cantidad de puertos, el ancho y la capacidad máxima.
   ![Agregando BRAM](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Screenshot_20200503_235555.png "Agregando BRAM")
   * Al agregar regiones de memoria, debe verificarse donde fueron mapeadas, especialmente si se agregó memoria o si además del Zynq, por ejemplo, se instanció un coprocesador de apoyo en el tejido de FPGA, para eso debe verse el "Address Editor", accesible desde el menú tools.
-  ![Address Editor](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/  Screenshot_20200511_043715.png "Address Editor")
+  ![Address Editor](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Screenshot_20200511_043715.png "Address Editor")
   No Asignar direcciones a una región hará que la síntesis falle. Pueden remapearse regiones del diseño. Este mismo mapa será visible por Petalinux y Xilinx Vitis.
 
 ## Generación de Productos ##
