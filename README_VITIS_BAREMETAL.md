@@ -94,7 +94,6 @@ Al salir se podrá ver que el PS tiene lineas disponibles adicionales. ![Cross t
 
 Al Hacer click en el pop-up "Run Block Automation se agregran tantos System ILA como líneas se agregaron.
 A los ILA, deben conectarse las señales y sus relojes pertenecientes al dominio de reloj de la señal correspondiente
-Debe notarse que las señales que se van a vigilar, no deberían exceder el reloj local. De hacerlo podria inestabilizarse el circuito, o enviar informacion corrupta hacia el exterior.
-
-
+Debe notarse que las señales que se van a vigilar, no deberían exceder el reloj local. De hacerlo podria inestabilizarse el circuito, o enviar informacion corrupta hacia el exterior. El ILA debe configurarse del mismo modo como si se estuviera en un proyecto de RTL. Nótese que esto alterará las constraints y el timing del sistema y en función de cuanto se utilice, también el espacio y recursos disponibles.
+ 
 
