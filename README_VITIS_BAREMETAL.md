@@ -87,7 +87,7 @@ Puede verse lo usual de un depurador: Volcado de memoria, Lista de llamadas, Reg
 
 Pueden también usarse comandos adicionales del depurador GDB versionado por Xilinx (XSDB) para efectuar acciones no disponibles desde la GUI o cargar scripts. Existe la posibilidad de redireccionar el terminal hacia las ventanas de terminal de Xilinx vitis
 
-* Depuración del sistema completo: Permite depurar, desde el punto de vista programático, ciertos grupos de senales del bus del sistema y de la lógica del tejido de FPGA. Para habilitarlo, debe estar configurado en Vivado el Zynq-PS la habilitación del cross triggering.
+* Depuración del sistema completo: Permite depurar ciertos grupos de senales del bus del sistema y de la lógica del tejido de FPGA. Para habilitarlo, debe estar configurado en Vivado el Zynq-PS la habilitación del cross triggering.
 ![Flasheando Bitstream](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Screenshot_20200514_032817.png "Flasheando Bitstream")
 Puede habilitarse para uno o más nucleos del SOC Zynq.
 Al salir se podrá ver que el PS tiene lineas disponibles adicionales. ![Cross trigger](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Screenshot_20200514_035919.png "Cross trigger")
