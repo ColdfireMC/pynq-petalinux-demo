@@ -2,7 +2,7 @@
 
 ### Instalando Petalinux ###
 Petalinux solo funciona en sistemas con Linux Instalado. Dado conflictos de versiones de bibliotecas, debe instalarse solo en las versiones que estan soportadas por Xilinx. Lamentablemente, a esta fecha, las versiones soportadas estan entrando en "Fin de soporte" o carecen de características o correcciones importantes (Como Centos 6 o Ubuntu 18.04).
-Para instalarlo basta con la siguiente secuencia de comandos, después de descargar [Petalinux](https://www.xilinx.com/products/design-tools/embedded-software/petalinux-sdk.html#licensing "petalinux-v2019.2-final-installer.run") desde el sitio de Xilinx, aceptando los términos de contrato
+Para instalarlo basta con la siguiente secuencia de comandos, después de descargar ![Petalinux](https://www.xilinx.com/products/design-tools/embedded-software/petalinux-sdk.html#licensing "petalinux-v2019.2-final-installer.run") desde el sitio de Xilinx, aceptando los términos de contrato
 ```bash
 # mkdir /opt/pkg/petalinux/2019.2/
 # chown <su_usuario> /opt/pkg/petalinux/2019.2/
@@ -122,7 +122,7 @@ Si no está presente alguno de ellos, puede atribuírsele las siguientes razones
 
 Al estar presentes todos los componentes, debe agregársele la imagen de linux. En este caso, se trata de un archivo tipo .ub, que está en `<carpeta_con_nombre_del_proyecto>/images/linux`. Normalmente se llama `image.ub`. Esto puede lograrse con <kbd>Add</kbd>.
 ![Flasheando Bitstream](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-vitis-doc/Screenshot_20200512_012422.png "Flasheando Bitstream")
-Con <kbd>Browse</kbd> debe especificarse la ubicación de la imagen. Una vez especificada, la imagen debe situarse en el offset `0x520000` ([Zynq 7000 embedded design tutorial]https://www.xilinx.com/support/documentation/sw_manuals/xilinx2019_2/ug1165-zynq-embedded-design-tutorial.pdf "Embedded Design Tutorial PDF Xilinx). 
+Con <kbd>Browse</kbd> debe especificarse la ubicación de la imagen. Una vez especificada, la imagen debe situarse en el offset `0x520000` (![Zynq 7000 embedded design tutorial](https://www.xilinx.com/support/documentation/sw_manuals/xilinx2019_2/ug1165-zynq-embedded-design-tutorial.pdf "Embedded Design Tutorial PDF Xilinx)). 
 ![Flasheando Bitstream](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-vitis-doc/Screenshot_20200512_012511.png "Flasheando Bitstream")
 Antes de generar la imagen, copiar la ruta del FSBL al portapapeles (Esto debido a un bug intermitente en el comando "Program Flash"). La imagen ahora puede crearse con <kbd>Create Image</kbd>.
 ![Flasheando Bitstream](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-vitis-doc/Screenshot_20200512_012539.png "Flasheando Bitstream")
@@ -148,7 +148,7 @@ Debido a un bug, el comando anterior, no renombra el *bitstream* del FPGA a "dow
 $ petalinux-boot --jtag --prebuilt <nivel>
 ```
 Donde nivel indica si se quiere arrancar el FSBL (1), el bootloader (2) y linux (3, kernel y userland).
-Este comando tiene numerosas opciones para especificar porciones diferentes del firmware y bitstream. Para más detalles, leer el capítulo 5 de [ug1144](https://www.xilinx.com/support/documentation/sw_manuals/xilinx2020_1/ug1144-petalinux-tools-reference-guide.pdf)
+Este comando tiene numerosas opciones para especificar porciones diferentes del firmware y bitstream. Para más detalles, leer el capítulo 5 de ![ug1144](https://www.xilinx.com/support/documentation/sw_manuals/xilinx2020_1/ug1144-petalinux-tools-reference-guide.pdf)
 
 El enlace JTAG tardará unos 2 minutos en cargar la memoria de la tarjeta en el caso de Linux. El proceso tiene la siguiente apariencia
 
@@ -171,7 +171,7 @@ De un modo similar a JTAG, es posible cargar directo a la memoria algunas o toda
 $ petalinux-boot --qemu --prebuilt <nivel>
 ```
 "Nivel" tiene el mismo significado que para JTAG. En este caso, QEMU toma el control total del terminal y solo puede ser terminado con <kbd>Ctrl</kbd><kbd>A</kbd><kbd>X</kbd>. Al ejecutarse, debería tomar la siguiente apariencia. 
-QEMU aún no puede emular todos los IP de Xilinx. Una lista exahustiva del soporte está disponible en [ug1169](https://www.xilinx.com/support/documentation/sw_manuals/xilinx2020_1/ug1169-xilinx-qemu.pdf)
+QEMU aún no puede emular todos los IP de Xilinx. Una lista exahustiva del soporte está disponible en ![ug1169](https://www.xilinx.com/support/documentation/sw_manuals/xilinx2020_1/ug1169-xilinx-qemu.pdf)
 
 
 ## Problemas Conocidos ##
@@ -182,8 +182,46 @@ QEMU aún no puede emular todos los IP de Xilinx. Una lista exahustiva del sopor
 * A veces la placa fallará el *flasheo* si se comienza a flashear con JP1 en una posición que no sea JTAG. En ese caso, poner el jumper en la posicion JTAG antes de grabar, luego grabar y final apagar la tarjeta y volver a ponerlo en QSPI.
 * Las políticas de *Sleep* del cpu vienen de un modo predeterminado muy agresivo y el CPU al entrar en modo *Idle* sólo puede despertarse con una interrupción de timer interno o una excepción. En https://www.xilinx.com/support/answers/69143.html se describe un método para evitar este problema. 
 
-## Aplicaciones Linux ##
+## Aplicaciones Linux 
+### Desarrollo de Aplicaciones Linux en Xilinx Vitis/SDK ###
+```bash
+$ petalinux-config -c rootfs
+```
+Luego debe seleccionarse "filesystem packages"--->"misc"--->"tcf-agent"
 
+
+
+Luego debe guardarse la configuración y ejecutar el comando:
+
+```bash
+$ petalinux-build
+```
+Para que Vitis pueda encontrar las rutas adecuadas, debe construirse el componente SDK de petalinux. Esto se puede lograr con el siguiente comando
+
+```bash
+$ petalinux-build -c sdk
+```
+Luego, después de abrir Vitis, se debe seleccionar "New" --> "Application Project"
+
+Luego se debe seleccionar el tipo de CPU. En el caso de Pynq, se cuenta con un Cortex A9, por lo que debe seleccionaese psu-cortexa9-smp. El modo SMP hace referencia al uso del multinúcleo simétrico. Solo es posible de ocupar en linux.
+
+Despues de hacer click en <kbd>Next</kbd> se debe seleccionar el tipo de sistema operativo. En este caso la única alternativa sería Linux.
+
+Debe especificarse un sysroot de linux para poder compilar una aplicación. El sysroot provee todos los headers y las bibliotecas en las rutas finales que tendrán los archivos en la imagen linux resultante.
+
+Si se desea puede usarse una plantilla de ejemplo.
+
+Existen ejemplos y plantillas de los dispositivos de Xilinx y sus respectivas API en <instalación vivado>/Vitis/<Version>/data/embeddedsw
+
+![proyecto SDK](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Screenshot_20200611_035420.png "Scripts de Apoyo para el depurador")
+
+![proyecto vitis](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Screenshot_20200611_035420.png "Scripts de Apoyo para el depurador")
+
+![proyecto sysroot](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Screenshot_20200611_035420.png "Scripts de Apoyo para el depurador")
+
+
+
+### Aplicaciones Incluidas ###
 El comando
 
 ```bash
@@ -211,10 +249,10 @@ Para programas mas complejos y desarrollo de controladores y módulos de kernel 
 * Compilar el kernel y las aplicaciones en modo "Debug": Debe generarse información de depuración junto con el código. Esto permite al ejecutable proporcionar marcadores para identificar que línea del código se evalúa en este momento y las variables y símbolos del código "Kernel Hacking" ---> "Compile-time checks and compiler options" ---> "Generate Debug Information".![Agregando Información de depuración](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Captura de pantalla_2020-07-14_20-00-23.png "Agregando Información de depuración")
 
 * Des-optimizar el código: (Este paso es más importante de lo que parece) Pese a que el código haya sido compilado con información de depuración, las optimizaciones pueden distorsionar la correspondencia entre las líneas de código máquina, las líneas de ensamblador y las líneas de código fuente.
-Para estono basta solo hacer que sea posible depurar, sino que además el código sea "entendible por humanos", permitiendo depurar excepciones e interrupciones relacionadas con controladores y errores derivados de operaciones aritméticas (overflow, underflow, división por cero) y contar con una perspectiva razonable de que instrucción de máquina está siendo representada por el código. Para ello se debe activar la configuración "Kernel Hacking" ---> "Compile-time checks and compiler options" ---> "Generate Readeable Assembler Code".![Generar Código Máquina Legible](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Screenshot_20200708_022033.png "Generar Código Máquina Legible")Esto es particularmente intenso en máquinas RISC, como ARM, debido a que las acciones de cada una de las instrucciones distan mucho de la complejidad de las líneas del código. Además, algunos compiladores tienen optimizaciones a nivel de alineación del código, por lo que algunas instrucciones son espaciadas con otras instrucciones y cambiadas de orden, de modo de aprovechar la caché, el procesamiento fuera de orden y la alineación de la decodificación. Petalinux solo tiene las opciones "Optimize for Size" and "Optimize for Performance" en "General Setup" ---> "Compiler optimization level" --->![Optimización](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Screenshot_20200708_033841.png "Optimización")"Optimize for Performance" hará el código ser apenas entendible, y podría ser inconveniente para usarlo en flash SPI, por lo que se recomienda mientras se depura usar "Optimize for Size".
+Para estono basta solo hacer que sea posible depurar, sino que además el código sea "entendible por humanos", permitiendo depurar excepciones e interrupciones relacionadas con controladores y errores derivados de operaciones aritméticas (overflow, underflow, división por cero) y contar con una perspectiva razonable de que instrucción de máquina está siendo representada por el código. Para ello se debe activar la configuración "Kernel Hacking" ---> "Compile-time checks and compiler options" ---> "Generate Readeable Assembler Code".![Generar Código Máquina Legible](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Screenshot_20200708_022033.png "Generar Código Máquina Legible")Esto es particularmente intenso en máquinas RISC, como ARM, debido a que las acciones de cada una de las instrucciones distan mucho de la complejidad de las líneas del código. Además, algunos compiladores tienen optimizaciones a nivel de alineación del código, por lo que algunas instrucciones son espaciadas con otras instrucciones y cambiadas de orden, de modo de aprovechar la caché, el procesamiento fuera de orden y la alineación de la decodificación. Petalinux solo tiene las opciones "Optimize for Size" and "Optimize for Performance" en "General Setup" ---> "Compiler optimization level" --->![Optimización](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Screenshot_20200708_033841.png "Optimización") "Optimize for Performance" hará el código ser apenas entendible, y podría ser inconveniente para usarlo en flash SPI, por lo que se recomienda mientras se depura usar "Optimize for Size".
 
 * Activar diversos niveles de mensajes, según se requiera: Si se desea depurar servicios y protocolos dentro del kernel, activar mensajería podría ser necesario. Debe notarse que se requiere un enlace de comunicaciones adicional para este fin. Además, puede que sea necesario que el mismo cuente con líneas de control de flujo, cosa que tarjetas como PYNQ, en un giro inesperado del diseño, fue omitida, por lo que tales mensajes solo podrían ser obtenidos con control de flujo por software, o usando un enlace de red Ethernet.
-"Kernel Hacking" ---> "Kernel low-level debugging functions" ![Habilitando funciones de depuración de bajo nivel](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Screenshot_20200707_021656.png "Habilitando funciones de depuración de bajo nivel")"Kernel Hacking" ---> "Compile-time checks and compiler options" ---> "Provide GDB Scripts for GDB debugging"![Scripts de Apoyo para el depurador](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Screenshot_20200708_010942.png "Scripts de Apoyo para el depurador").
+"Kernel Hacking" ---> "Kernel low-level debugging functions" ![Habilitando funciones de depuración de bajo nivel](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Screenshot_20200707_021656.png "Habilitando funciones de depuración de bajo nivel") "Kernel Hacking" ---> "Compile-time checks and compiler options" ---> "Provide GDB Scripts for GDB debugging"![Scripts de Apoyo para el depurador](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Screenshot_20200708_010942.png "Scripts de Apoyo para el depurador")
 
 * Contar con el código fuente: el código fuente exacto debe estar disponible, para poder tener una lectura acertada. No se debe modificar el código desde el archivo mientras se depura. Hacerlo dejará inválidos los números de línea emitidos por los marcadores y la lectura del código será erronea. Para modificar el código debe evaluarse y ensamblarse la expresión, siempre y cuando no implique desplazar el código.
 
@@ -229,7 +267,7 @@ $ petalinux-config -c rootfs
 ```
 Luego debe seleccionarse "filesystem packages"--->"misc"--->"tcf-agent"
 
-![Scripts de Apoyo para el depurador](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Screenshot_20200611_035420.png "Scripts de Apoyo para el depurador").
+![Scripts de Apoyo para el depurador](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Screenshot_20200611_035420.png "Scripts de Apoyo para el depurador")
 
 Luego debe guardarse la configuración y ejecutar el comando:
 ```bash
@@ -272,7 +310,7 @@ Debe seleccionarse en "Debug Type" "Attach to running Target"
 Debe crearse una conexión presionando <kbd>New</kbd>
 
 
-![Scripts de Apoyo para el depurador](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Captura%20de%20pantalla_2020-07-16_00-56-30.png "Scripts de Apoyo para el depurador").
+![Scripts de Apoyo para el depurador](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Captura%20de%20pantalla_2020-07-16_00-56-30.png "Scripts de Apoyo para el depurador")
 
 Debe especificarse el puerto y la dirección. Si se hace depuración remota por ethernet, el puerto 1531 es el adecuado, junto con la dirección IP del objetivo. Si se hace usando un cable JTAG, debe conectarse a un "Xilinx Hardware Server" activo. en ese caso la IP es localhost, o 127.0.0.1 y el puerto 3121. Si es en QEMU, la IP es localhost, pero el puerto es 9000.
 Puede probarse la conexión con <kbd>Test Connection</kbd>
@@ -308,19 +346,17 @@ Para depurar el kernel, debe haberse compilado con símbolos de depuración. Est
 
 
 
-![Scripts de Apoyo para el depurador](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Captura%20de%20pantalla_2020-07-15_22-31-25.png "Scripts de Apoyo para el depurador").
+![Scripts de Apoyo para el depurador](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Captura%20de%20pantalla_2020-07-15_22-31-25.png "Scripts de Apoyo para el depurador")
 
 En esta ventana debe especificarse la ruta donde se encuentra la imagen del kernel "vmlinux"
 
 
 
-![Scripts de Apoyo para el depurador](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Captura%20de%20pantalla_2020-07-15_22-31-33.png "Scripts de Apoyo para el depurador").
+![Scripts de Apoyo para el depurador](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Captura%20de%20pantalla_2020-07-15_22-31-33.png "Scripts de Apoyo para el depurador")
 
 
 
-![Scripts de Apoyo para el depurador](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Captura%20de%20pantalla_2020-07-15_22-31-41.png  "Scripts de Apoyo para el depurador").
-
-
+![Scripts de Apoyo para el depurador](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Captura%20de%20pantalla_2020-07-15_22-31-41.png  "Scripts de Apoyo para el depurador")
 
 
 
@@ -329,7 +365,7 @@ En esta ventana debe especificarse la ruta donde se encuentra la imagen del kern
 Debe establecerse permisos y atributos que se necesite a la imagen. OS aware debugging permite acceder a cada tarea o módulo que se desee. Se recomienda activarlo en caso de necesitar depurar la interacción de una aplicación con un controlador (Activado en este caso para explorar la funcionalidad).
 
 
-![Scripts de Apoyo para el depurador](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Captura%20de%20pantalla_2020-07-15_22-32-25.png "Scripts de Apoyo para el depurador").
+![Scripts de Apoyo para el depurador](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Captura%20de%20pantalla_2020-07-15_22-32-25.png "Scripts de Apoyo para el depurador")
 
 
 Al insertar los símbolos, la máquina se pausa y entra al procesimiento "Idle" que se ejecuta cuando la máquina está libre.
@@ -341,7 +377,7 @@ Notar que se cargó automáticamente el código fuente, ya que esta información
 
 Nótese que si se detiene la ejecución del kernel o uno de sus módulos, el sistema no puede decodificar las direcciones de las tareas, así que no es posible "encontrar" código de esta manera.
 
-![Scripts de Apoyo para el depurador](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Captura%20de%20pantalla_2020-07-15_23-01-24.png "Scripts de Apoyo para el depurador").
+![Scripts de Apoyo para el depurador](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Captura%20de%20pantalla_2020-07-15_23-01-24.png "Scripts de Apoyo para el depurador")
 
 
 
@@ -349,15 +385,15 @@ Nótese que si se detiene la ejecución del kernel o uno de sus módulos, el sis
 
 La manera correcta de depurar el kernel es instalando un breakpoint en alguna función del módulo que interese. El código fuente se encuentra en `<base del proyecto petalinux>/components/yocto/workspace/sources/linux-xlnx/`.
 
-![Scripts de Apoyo para el depurador](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Captura%20de%20pantalla_2020-07-15_23-33-45.png "Scripts de Apoyo para el depurador").
+![Scripts de Apoyo para el depurador](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Captura%20de%20pantalla_2020-07-15_23-33-45.png "Scripts de Apoyo para el depurador")
 
 
 Con "File"--->"Open File" debe seleccionarse un archivo de código fuente. Haciendo doble clic en una de las líneas, se agrega un breakpoint
 
-![Scripts de Apoyo para el depurador](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Captura%20de%20pantalla_2020-07-15_23-36-45.png "Scripts de Apoyo para el depurador").
+![Scripts de Apoyo para el depurador](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Captura%20de%20pantalla_2020-07-15_23-36-45.png "Scripts de Apoyo para el depurador")
 
 Si se espera algunos instantes, a que el kernel invoque la función, la máquina se detendrá en el breakpoint y mostrará acceso a los registros del CPU y a la cadena JTAG.
-![Scripts de Apoyo para el depurador](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Captura%20de%20pantalla_2020-07-15_23-39-57.png "Scripts de Apoyo para el depurador").
+![Scripts de Apoyo para el depurador](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Captura%20de%20pantalla_2020-07-15_23-39-57.png "Scripts de Apoyo para el depurador")
 
 
 También pueden verse las variables involucradas en la operación.
@@ -368,26 +404,26 @@ Puede "seguirse" las cabeceras y los archivos involucrados si se presiona <kbd>C
 
 También es posible vigilar cada una de las tareas o daemon del sistema y depurarlas. Para ello debe hacerse clic derecho sobre alguna de las aplicaciones y pausarla.
 
-![Scripts de Apoyo para el depurador](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Captura%20de%20pantalla_2020-07-15_22-34-47.png "Scripts de Apoyo para el depurador").
+![Scripts de Apoyo para el depurador](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Captura%20de%20pantalla_2020-07-15_22-34-47.png "Scripts de Apoyo para el depurador")
 
 Nótese que si no aparece código fuente, se entra al modo desensamblado. Esto ocurre si no se especifica que las aplicaciones de rootfs incluyan su versión depurable.
 
-![Scripts de Apoyo para el depurador](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Captura%20de%20pantalla_2020-07-15_22-50-29.png "Scripts de Apoyo para el depurador").
+![Scripts de Apoyo para el depurador](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Captura%20de%20pantalla_2020-07-15_22-50-29.png "Scripts de Apoyo para el depurador")
 
 Una de las funcionalidades del backend del depurador permite identificar de que módulos la aplicación o el daemon es dependiente. Puede usar estos para cargar los símbolos o el código fuente, o bien usar el nombre para volver a configurar el RootFS de Petalinux.
 
-![Scripts de Apoyo para el depurador](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Captura%20de%20pantalla_2020-07-15_22-36-16.png "Scripts de Apoyo para el depurador").
+![Scripts de Apoyo para el depurador](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Captura%20de%20pantalla_2020-07-15_22-36-16.png "Scripts de Apoyo para el depurador")
 
 Los archivos faltantes aparecen en rojo.
 
 Pueden agregarse o cambiarse las rutas del código fuente, en la pestaña "Source" del editor de configuración de depuración.
 
-![Scripts de Apoyo para el depurador](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Captura%20de%20pantalla_2020-07-15_22-45-20.png "Scripts de Apoyo para el depurador").
+![Scripts de Apoyo para el depurador](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Captura%20de%20pantalla_2020-07-15_22-45-20.png "Scripts de Apoyo para el depurador")
 
 
 Si al cargar símbolos o código fuente, no se encuentra la sección del módulo que está siendo depurado, aparecerá el siguiente mensaje en la ventana de código.
 
-![Scripts de Apoyo para el depurador](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Captura%20de%20pantalla_2020-07-15_22-48-52.png "Scripts de Apoyo para el depurador").
+![Scripts de Apoyo para el depurador](https://github.com/ColdfireMC/pynq-petalinux-demo/blob/master/pynq-petalinux-doc/Captura%20de%20pantalla_2020-07-15_22-48-52.png "Scripts de Apoyo para el depurador")
 
 
 "Disconnect" termina la sesión de depuración y libera al dispositivo. Evitar apagar el dispositivo sin terminar la sesión, ya que esto dejaría bloqueado el depurador y posiblemente Vitis completo
