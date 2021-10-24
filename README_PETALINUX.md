@@ -148,7 +148,7 @@ Debido a un bug, el comando anterior, no renombra el *bitstream* del FPGA a "dow
 $ petalinux-boot --jtag --prebuilt <nivel>
 ```
 Donde nivel indica si se quiere arrancar el FSBL (1), el bootloader (2) y linux (3, kernel y userland).
-Este comando tiene numerosas opciones para especificar porciones diferentes del firmware y bitstream. Para más detalles, leer el capítulo 5 de ![ug1144](https://www.xilinx.com/support/documentation/sw_manuals/xilinx2020_1/ug1144-petalinux-tools-reference-guide.pdf)
+Este comando tiene numerosas opciones para especificar porciones diferentes del firmware y bitstream. Para más detalles, leer el capítulo 5 de ![ug1144](https://www.xilinx.com/support/documentation/sw_manuals/xilinx2020_1/ug1144-petalinux-tools-reference-guide.pdf "ug1144")
 
 El enlace JTAG tardará unos 2 minutos en cargar la memoria de la tarjeta en el caso de Linux. El proceso tiene la siguiente apariencia
 
@@ -171,7 +171,7 @@ De un modo similar a JTAG, es posible cargar directo a la memoria algunas o toda
 $ petalinux-boot --qemu --prebuilt <nivel>
 ```
 "Nivel" tiene el mismo significado que para JTAG. En este caso, QEMU toma el control total del terminal y solo puede ser terminado con <kbd>Ctrl</kbd><kbd>A</kbd><kbd>X</kbd>. Al ejecutarse, debería tomar la siguiente apariencia. 
-QEMU aún no puede emular todos los IP de Xilinx. Una lista exahustiva del soporte está disponible en ![ug1169](https://www.xilinx.com/support/documentation/sw_manuals/xilinx2020_1/ug1169-xilinx-qemu.pdf)
+QEMU aún no puede emular todos los IP de Xilinx. Una lista exahustiva del soporte está disponible en ![ug1169](https://www.xilinx.com/support/documentation/sw_manuals/xilinx2020_1/ug1169-xilinx-qemu.pdf "ug1169")
 
 
 ## Problemas Conocidos ##
